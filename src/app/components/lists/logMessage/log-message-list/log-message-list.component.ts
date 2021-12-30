@@ -15,7 +15,6 @@ export class LogMessageListComponent implements OnInit {
 
   ngOnInit(): void {
     this.aaasService.getAllLogMessage().subscribe(res => this.logMessages = res);
-    console.log(this.logMessages);
   }
 
 }

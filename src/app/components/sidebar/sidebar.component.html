@@ -1,0 +1,25 @@
+<div *ngIf="isSmall">
+    <mat-toolbar class="mat-elevation-z8">
+        <a (click)="sidenav.toggle()" type="button"><i class="bi bi-list"></i></a>
+    </mat-toolbar>
+</div>
+
+<mat-sidenav-container>
+    <mat-sidenav #sidenav="matSidenav" mode="side" opened="true" disableClose="true">
+        <h1>AaaS.Web</h1>
+        
+        <p>Telemetriedaten</p>
+        <a mat-list-item routerLinkActive="active" routerLink="home">Alle</a>
+        <a mat-list-item routerLinkActive="active" routerLink="logMessages">Log-Nachrichten</a>
+        <a mat-list-item routerLinkActive="active" routerLink="counter">Zähler</a>
+        <a mat-list-item routerLinkActive="active" routerLink="measurement">Messungen</a>
+        <a mat-list-item routerLinkActive="active" routerLink="timeInterval">Zeitintervalle</a>
+        <p>Detektoren</p>
+        <a mat-list-item routerLinkActive="active" routerLink="home">Alle</a>
+        <a mat-list-item routerLinkActive="active" routerLink="home">Herzschlag-Detektoren</a>
+        <a mat-list-item routerLinkActive="active" routerLink="home">Min-Max-Detektoren</a>
+        <a mat-list-item routerLinkActive="active" routerLink="home">Sliding-Window-Detektoren</a>
+        <img src="assets/img/fhooeLogo.svg">
+    </mat-sidenav>
+    <mat-sidenav-content><router-outlet></router-outlet></mat-sidenav-content>
+</mat-sidenav-container>

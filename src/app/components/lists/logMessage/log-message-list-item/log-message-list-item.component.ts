@@ -10,7 +10,7 @@ export class LogMessageListItemComponent implements OnInit {
 
   @Input() log: LogMessage = new LogMessage();
 
-  constructor() { console.log("TESTE"); }
+  constructor() { }
 
   ngOnInit(): void {
   }
