@@ -19,7 +19,7 @@ export class AaasService {
   } 
 
   getAllLogMessage(): Observable<Array<LogMessage>> {
-    return this.http.get<any>(`${environment.server}/logMessages`)
-      .pipe(catchError(this.errorHandler));
+      return this.http.get<any>(`${environment.server}/logMessages`)
+        .pipe(catchError(this.errorHandler));
   }
 }
