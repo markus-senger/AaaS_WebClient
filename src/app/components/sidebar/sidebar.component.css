@@ -57,7 +57,7 @@ mat-sidenav a:hover {
     background-color: var(--main-color);
 }
 
-mat-sidenav a:active {
+mat-sidenav a.active {
     background-color: var(--main-color);
 }
 
