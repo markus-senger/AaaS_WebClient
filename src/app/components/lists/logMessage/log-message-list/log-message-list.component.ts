@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { catchError } from 'rxjs';
 import { AaasService } from 'src/app/shared/aaas.service';
 import { LogMessage } from 'src/app/shared/modules/log-message';
 
@@ -10,11 +11,12 @@ import { LogMessage } from 'src/app/shared/modules/log-message';
 export class LogMessageListComponent implements OnInit {
 
   logMessages: LogMessage[] = [];
+  connectionError: boolean = false;
 
   constructor(private aaasService: AaasService) { }
 
   ngOnInit(): void {
-    this.aaasService.getAllLogMessage().subscribe(res => this.logMessages = res);
+    this.aaasService.getAllLogMessage().subscribe({next: res => this.logMessages = res, error: () => this.connectionError = true});
   }
 
 }

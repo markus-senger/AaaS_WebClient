@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 import { map, catchError, retry } from 'rxjs/operators';
 import { LogMessage } from './modules/log-message';
 import { environment } from 'src/environments/environment';
+import { throwError } from 'rxjs';
 
 
 @Injectable({
@@ -15,7 +16,7 @@ export class AaasService {
 
   private errorHandler(error: Error | any): Observable<any> {
     console.log(error);
-    return of(null);
+    return throwError(() => "Server Error");  
   } 
 
   getAllLogMessage(): Observable<Array<LogMessage>> {
