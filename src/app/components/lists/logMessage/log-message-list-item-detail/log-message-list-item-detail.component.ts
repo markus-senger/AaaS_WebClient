@@ -1,9 +1,9 @@
 import { Input, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AaasService } from 'src/app/shared/aaas.service';
-import { ClientInstance } from 'src/app/shared/modules/client-instance';
-import { LogMessage } from 'src/app/shared/modules/log-message';
-import { TelemetryData } from 'src/app/shared/modules/telemetry-data';
+import { ClientInstance } from 'src/app/shared/models/client-instance';
+import { LogMessage } from 'src/app/shared/models/log-message';
+import { TelemetryData } from 'src/app/shared/models/telemetry-data';
 
 @Component({
   selector: 'app-log-message-list-item-detail',

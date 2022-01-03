@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { LogMessage } from 'src/app/shared/modules/log-message';
+import { LogMessage } from 'src/app/shared/models/log-message';
 
 @Component({
   selector: 'app-log-message-list-item',

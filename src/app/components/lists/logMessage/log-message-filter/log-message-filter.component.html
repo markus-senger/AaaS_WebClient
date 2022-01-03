@@ -1,0 +1,28 @@
+<form class="row mx-2">
+    <mat-form-field class="col-auto">
+        <input matInput placeholder="Search text" formControlName="searchText" autocomplete="off">
+    </mat-form-field>
+    <mat-form-field class="col-auto">
+        <mat-label>Log type</mat-label>
+        <mat-select formControlName="type">
+            <mat-option>
+                 'All'
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    
+    <mat-form-field class="col-auto">
+        <input placeholder="Instance"
+               matInput
+               formControlName="instance"
+               [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option>
+            test
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    <button mat-button class="col-auto">
+        Filter
+    </button>
+</form>
