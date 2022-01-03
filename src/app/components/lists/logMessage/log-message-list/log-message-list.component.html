@@ -2,9 +2,7 @@
     <app-log-message-list-item *ngFor="let log of logMessages.slice().reverse()" [log]="log"></app-log-message-list-item>
 </ul>
 
-<div *ngIf="connectionError" class="errorField">
-    <i class="bi bi-patch-exclamation"></i>
-    <p>Connecting to server failed...</p>
-</div>
+<app-connecting-error *ngIf="connectionError"></app-connecting-error>
+
 
 

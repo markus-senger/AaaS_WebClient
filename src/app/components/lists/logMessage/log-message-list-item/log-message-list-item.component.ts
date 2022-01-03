@@ -9,10 +9,15 @@ import { LogMessage } from 'src/app/shared/modules/log-message';
 export class LogMessageListItemComponent implements OnInit {
 
   @Input() log: LogMessage = new LogMessage();
+  details: boolean = false;
 
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  EntryClick(): void {
+    this.details = this.details == false ? true : false;
   }
 
 }

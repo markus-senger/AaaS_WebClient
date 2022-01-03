@@ -1,0 +1,18 @@
+<div *ngIf="!connectionError" class="details">
+    <div class="dataName">
+        <h3>Datenbezeichnung</h3>
+        <p>{{telemetryData.name}}</p>
+    </div>
+
+    <div class="clientInstance">
+        <h3>Client-Instanz</h3>
+        <p>{{clientInstance.description}}</p>
+        <p>Angemeldet für Herzschläge:<br>{{clientInstance.state == "LOGGED_OUT" ? "nein" : "ja"}}</p>
+        <p>Letzter Herzschlag:<br>{{clientInstance.lastHeartbeat == "0001-01-01T00:00:00" ? "nie" : clientInstance.lastHeartbeat}}</p>
+    </div>
+</div>
+
+<div class="error" *ngIf="connectionError">
+    <i class="bi bi-patch-exclamation"></i> 
+    <p>Connecting to server failed...</p>
+</div>
