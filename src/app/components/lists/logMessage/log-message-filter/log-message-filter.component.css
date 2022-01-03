@@ -1,0 +1,10 @@
+form {
+    margin: 0px;
+    color: var(--main-color);
+}
+
+.bi-x {
+    color: red;
+    font-size: 20px;
+    text-align: center;
+}

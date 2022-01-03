@@ -7,9 +7,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LogMessageFilterComponent implements OnInit {
 
-  constructor() { }
+    selectedType: string = "";
+    selectedClientInstance: string = "";
 
-  ngOnInit(): void {
-  }
+
+    constructor() { }
+
+    ngOnInit(): void {
+    }
 
 }
