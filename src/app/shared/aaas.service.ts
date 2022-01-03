@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { map, catchError, retry } from 'rxjs/operators';
-import { LogMessage } from './modules/log-message';
-import { TelemetryData } from './modules/telemetry-data';
-import { ClientInstance } from './modules/client-instance';
+import { LogMessage } from './models/log-message';
+import { TelemetryData } from './models/telemetry-data';
+import { ClientInstance } from './models/client-instance';
 import { environment } from 'src/environments/environment';
 import { throwError } from 'rxjs';
 
