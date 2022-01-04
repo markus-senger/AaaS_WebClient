@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { catchError } from 'rxjs';
 import { AaasService } from 'src/app/shared/aaas.service';
 import { LogMessage } from 'src/app/shared/models/log-message';
 

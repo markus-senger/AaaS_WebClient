@@ -4,6 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppMaterialModule } from './app-material.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from '../app.component';
 import { LogMessageListItemComponent } from '../components/lists/logMessage/log-message-list-item/log-message-list-item.component';
@@ -38,7 +39,8 @@ import { LogMessageFilterComponent } from '../components/lists/logMessage/log-me
     BrowserModule,
     HttpClientModule,
     NoopAnimationsModule,
-    AppMaterialModule
+    AppMaterialModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

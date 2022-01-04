@@ -1,49 +1,67 @@
-<form class="row px-2 pt-3 pb-2 sticky-top bg-light">
+<form [formGroup]="filterSettings" class="px-2 pt-3 pb-2 sticky-top bg-light">
 
-    <mat-form-field class="col-auto mr-auto">
-        <input matInput placeholder="Text suchen" formControlName="searchText" autocomplete="off">
-    </mat-form-field>
-
-    <mat-form-field class="col-auto mr-auto">
-        <mat-label>Typ</mat-label>
-        <a *ngIf="selectedType" matSuffix 
-            (click)="selectedType=''; $event.stopPropagation()">
-            <i class="bi bi-x"></i>
+    <div class="openCloseBar">
+        <a (click)="filterToggle()" type="button">
+            <i *ngIf="filterOpen" class="bi bi-caret-up-fill"></i>
+            <i *ngIf="!filterOpen" class="bi bi-caret-down-fill"></i>
         </a>
-        <mat-select [(value)]="selectedType">
-            <mat-option value="option1">All</mat-option>
-            <mat-option value="option1">Trace</mat-option>
-            <mat-option value="option2">Warning</mat-option>
-            <mat-option value="option3">Error</mat-option>
-        </mat-select>
-    </mat-form-field>
+        <p>Filter</p>
+    </div>
 
-    <mat-form-field class="col-auto mr-auto">
-        <mat-label>Zeitspanne</mat-label>
-        <mat-date-range-input [rangePicker]="picker">
-            <input matStartDate placeholder="Startdatum" formControlName="from" autocomplete="off">
-            <input matEndDate placeholder="Enddatum"  formControlName="to" autocomplete="off">
-        </mat-date-range-input>
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-date-range-picker #picker></mat-date-range-picker>
-    </mat-form-field>
+    <div *ngIf="filterOpen">
+        <div class="row">
 
-    <mat-form-field class="col-auto mr-auto">
-        <mat-label>Client-Instanz</mat-label>
-        <a *ngIf="selectedClientInstance" matSuffix 
-            (click)="selectedClientInstance=''; $event.stopPropagation()">
-            <i class="bi bi-x"></i>
-        </a>
-        <mat-select [(value)]="selectedClientInstance">
-            <mat-option value="option1">All</mat-option>
-            <mat-option value="option1">Trace</mat-option>
-            <mat-option value="option2">Warning</mat-option>
-            <mat-option value="option3">Error</mat-option>
-        </mat-select>
-    </mat-form-field>
+            <mat-form-field color="primary" class="col">
+                <a *ngIf="messageFieldEmpty" type="button" matSuffix 
+                    (click)="$event.stopPropagation(); resetMessageField()">
+                    <i class="bi bi-x"></i>
+                </a>
+                <input matInput placeholder="Text suchen" formControlName="selectedMessage" autocomplete="off" (change)="messageFieldEmpty = 'message'">
+            </mat-form-field>
 
-    <button mat-button class="col-auto my-2 btn btn-outline-secondary btn-sm justify-content-end">
-        Filter anwenden
-    </button>
-      
+            <mat-form-field class="col">
+                <mat-label>Typ</mat-label>
+                <a *ngIf="typeFieldEmpty" type="button" matSuffix 
+                    (click)="$event.stopPropagation(); resetTypeField()">
+                    <i class="bi bi-x"></i>
+                </a>
+                <mat-select formControlName="selectedType" [(value)]="typeFieldEmpty">
+                    <mat-option value="trace">Trace</mat-option>
+                    <mat-option value="warning">Warning</mat-option>
+                    <mat-option value="error">Error</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="col">
+                <mat-label>Client-Instanz</mat-label>
+                <a *ngIf="clientFieldEmpty" type="button" matSuffix 
+                    (click)="$event.stopPropagation(); resetClientField()">
+                    <i class="bi bi-x"></i>
+                </a>
+                <mat-select formControlName="selectedClientInstance" [(value)]="clientFieldEmpty">
+                    <mat-option *ngFor="let client of clientInstances" [value]="client">{{client.description}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="col">
+                <mat-label>Zeitspanne</mat-label>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <a *ngIf="dateFieldEmpty" type="button" matSuffix 
+                    (click)="$event.stopPropagation(); resetDateField()">
+                    <i class="bi bi-x"></i>
+                </a>
+                <mat-date-range-input [rangePicker]="picker">
+                    <input matStartDate formControlName="selectedDateStart" placeholder="Startdatum" autocomplete="off" (dateChange)="dateFieldEmpty = 'date'">
+                    <input matEndDate formControlName="selectedDateEnd" placeholder="Enddatum" autocomplete="off">
+                </mat-date-range-input>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+            </mat-form-field>
+        
+        </div>
+
+        <button mat-button (click)="submitFilter()" class="row my-2 btn btn-outline-secondary btn-sm justify-content-end">
+            Filter anwenden
+        </button>
+    </div>
+
 </form>

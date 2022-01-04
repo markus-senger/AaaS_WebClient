@@ -36,6 +36,11 @@ export class AaasService {
         .pipe(catchError(this.errorHandler));
   }
 
+  getAllClientInstance(): Observable<Array<ClientInstance>> {
+    return this.http.get<any>(`${environment.server}/clientInstances`)
+        .pipe(catchError(this.errorHandler));
+  }
+
   getClientInstanceByAppKeyAndClientID(appKey?: string, clientID?: string): Observable<ClientInstance> {
     return this.http.get<any>(`${environment.server}/clientInstances/${appKey}/${clientID}`)
         .pipe(catchError(this.errorHandler));
