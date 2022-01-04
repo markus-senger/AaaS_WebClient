@@ -1,0 +1,24 @@
+@use '@angular/material' as mat;
+
+@import 'styles.css';
+
+@include mat.core();
+
+$main: (
+    50: var(--main-color),
+    contrast: (
+        50: white,
+    )
+);
+
+$customTheme-primary: mat.define-palette($main, 50);
+$customTheme-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+
+$customTheme: mat.define-light-theme((
+ color: (
+   primary: $customTheme-primary,
+   accent: $customTheme-accent,
+ )
+));
+
+@include mat.all-component-themes($customTheme);
