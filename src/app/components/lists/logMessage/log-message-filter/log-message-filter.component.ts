@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ClientInstance } from 'src/app/shared/models/client-instance';
 import { AaasService } from 'src/app/shared/aaas.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { DateAdapter } from '@angular/material/core';
 
 @Component({
   selector: 'app-log-message-filter',
@@ -10,9 +11,12 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 })
 export class LogMessageFilterComponent implements OnInit {
 
+    @Output() applyFilter: EventEmitter<any> = new EventEmitter();
+
     filterSettings: FormGroup;
 
     filterOpen: boolean = false;
+    connectionError: boolean = false;
 
     clientInstances: ClientInstance[] = [];
 
@@ -22,18 +26,19 @@ export class LogMessageFilterComponent implements OnInit {
     dateFieldEmpty: string = "";
 
 
-    constructor(private aaasService: AaasService, private fb: FormBuilder) { 
+    constructor(private aaasService: AaasService, private fb: FormBuilder, private dateAdapter: DateAdapter<Date>) { 
         this.filterSettings = fb.group({
             selectedMessage: undefined,
             selectedType: undefined,
             selectedClientInstance: undefined,
             selectedDateStart: undefined,
             selectedDateEnd: undefined
-        })
+        });
+        this.dateAdapter.setLocale('en-GB');
     }
 
     ngOnInit(): void {
-        this.aaasService.getAllClientInstance().subscribe({next: res => this.clientInstances = res});
+        this.aaasService.getAllClientInstance().subscribe({next: res => this.clientInstances = res, error: () => this.connectionError = true});
     }
 
     filterToggle(): void {
@@ -71,6 +76,7 @@ export class LogMessageFilterComponent implements OnInit {
 
     submitFilter(): void {
         console.log(this.filterSettings.value);
+        this.applyFilter.emit(this.filterSettings.value);
     }
 
 }

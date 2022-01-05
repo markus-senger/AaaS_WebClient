@@ -21,4 +21,10 @@ form {
 
 .row {
     margin-left: 20px;
+    margin-right: 20px;
+}
+
+#clientConnectingError {
+    background-color: red;
+    color: white;
 }

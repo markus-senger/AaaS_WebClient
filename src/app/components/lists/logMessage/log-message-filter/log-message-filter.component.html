@@ -39,6 +39,7 @@
                     <i class="bi bi-x"></i>
                 </a>
                 <mat-select formControlName="selectedClientInstance" [(value)]="clientFieldEmpty">
+                    <mat-option *ngIf="connectionError" id="clientConnectingError">Connecting to server failed...</mat-option>
                     <mat-option *ngFor="let client of clientInstances" [value]="client">{{client.description}}</mat-option>
                 </mat-select>
             </mat-form-field>

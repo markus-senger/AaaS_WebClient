@@ -1,4 +1,4 @@
-<app-log-message-filter></app-log-message-filter>
+<app-log-message-filter (applyFilter)="filter($event)"></app-log-message-filter>
 
 <ul *ngIf="!connectionError" class="list-group list-group-flush">
     <app-log-message-list-item *ngFor="let log of logMessages.slice().reverse()" [log]="log"></app-log-message-list-item>
