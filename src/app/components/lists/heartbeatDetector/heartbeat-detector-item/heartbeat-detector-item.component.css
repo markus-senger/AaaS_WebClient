@@ -1,0 +1,25 @@
+.heartbeat-card {
+    width: 450px;
+}
+
+@media only screen and (max-width: 480px) {
+    .heartbeat-card {
+        width: auto;
+    }
+}
+
+.header {
+    text-align: center;
+}
+
+.header mat-card-title {
+    color: var(--main-color);
+}
+
+.color {
+    background-color: var(--main-color-light);
+}
+
+.loading {
+    font-size: 20px;
+}

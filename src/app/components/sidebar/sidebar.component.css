@@ -36,7 +36,7 @@ mat-sidenav {
         margin-top: 50px;
         height: calc(100% - 50px);
     }
-   }
+}
 
 mat-sidenav a {
     text-decoration: none;

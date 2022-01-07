@@ -1,0 +1,42 @@
+.cardsContainer {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.cards {
+    display: inline-block;
+    margin: 10px;
+    text-align: center;
+}
+
+.newCard {
+    margin: 10px 20px 10px 20px;
+    text-align: center;
+    padding: 0;
+}
+
+.newCard:hover {
+    background-color: var(--main-color-light);
+    cursor: pointer;
+}
+
+.newCard a {
+    width: 100%;
+    margin: 0;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.newCard .bi-plus-circle {
+    font-size: 30px;
+}
+
+.loading {
+    margin-top: 20vh;
+    font-size: 20px;
+}
+
+.loadingFilter {
+    padding-bottom: 40px;
+}

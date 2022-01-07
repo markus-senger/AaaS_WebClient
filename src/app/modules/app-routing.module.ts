@@ -7,6 +7,7 @@ import { CounterListComponent } from '../components/lists/counter/counter-list/c
 import { MeasurementListComponent } from '../components/lists/measurement/measurement-list/measurement-list.component';
 import { TimeIntervalListComponent } from '../components/lists/timeInterval/time-interval-list/time-interval-list.component';
 import { ClientInstanceListComponent } from '../components/lists/client-instance/client-instance-list/client-instance-list.component';
+import { HeartbeatDetectorListComponent } from '../components/lists/heartbeatDetector/heartbeat-detector-list/heartbeat-detector-list.component';
 
 const routes: Routes = [
     {
@@ -42,7 +43,11 @@ const routes: Routes = [
     {
       path: 'timeInterval',
       component: TimeIntervalListComponent
-    }
+    },
+    {
+        path: 'heartBeatDetector',
+        component: HeartbeatDetectorListComponent
+      }
 ];
 
 @NgModule({

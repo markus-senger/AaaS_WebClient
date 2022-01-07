@@ -15,6 +15,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 :root {
   --main-color: #1abc9c;
+  --main-color-light: #1abc9c27;
   --secondary-color: white;
   --sidebar-color: #818181;
 }

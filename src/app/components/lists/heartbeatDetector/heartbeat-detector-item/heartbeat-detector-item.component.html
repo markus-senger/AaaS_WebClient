@@ -1,0 +1,37 @@
+<mat-card class="heartbeat-card">
+    <div *ngIf="loading" class="loading">
+        <app-loading-spinner></app-loading-spinner>
+    </div>
+
+    <div *ngIf="!connectionError">
+        <div class="header">
+            <mat-card-title>Herzschlag-Detektor</mat-card-title>
+            <mat-card-subtitle>{{detector.name}}</mat-card-subtitle>
+        </div>
+        <mat-card-content>
+            <div class="container">
+                <div class="row mb-2 color">
+                  <div class="col text-start">Zeit bis nächste Überprüfung</div>
+                  <div class="col text-start">{{detector.timeBetweenChecks}}</div>
+                </div>
+                <div class="row mb-2">
+                  <div class="col text-start">Letzte Überprüfung</div>
+                  <div class="col text-start">{{detector.lastCheck | date:'dd. MMMM y | HH:mm:ss'}}</div>
+                </div>
+                <div class="row mb-2 color">
+                    <div class="col text-start">Client-Name</div>
+                    <div class="col text-start">{{client.description}}</div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col text-start">Client-Herzschlag-Status</div>
+                    <div class="col text-start">{{client.state}}</div>
+                </div>
+            </div>
+        </mat-card-content>
+        <mat-card-actions>
+            <button class="btn btn-outline-secondary btn-sm" mat-button>Bearbeiten</button>
+        </mat-card-actions>
+    </div>
+    
+    <app-connecting-error *ngIf="connectionError"></app-connecting-error>
+</mat-card>

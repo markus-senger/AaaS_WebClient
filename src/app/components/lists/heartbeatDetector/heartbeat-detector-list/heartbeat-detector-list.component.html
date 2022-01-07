@@ -1,0 +1,10 @@
+<div *ngIf="!connectionError" class="cardsContainer">
+    <mat-card class="newCard"><a type="button" onclick='console.log("Hello")'><i class="bi bi-plus-circle"></i></a></mat-card>
+    <app-heartbeat-detector-item class="cards" *ngFor="let detector of heartBeatDet.slice().reverse()" [heartbeatDetector]="detector"></app-heartbeat-detector-item>
+</div>
+
+<div *ngIf="loading" class="loading">
+    <app-loading-spinner></app-loading-spinner>
+</div>
+
+<app-connecting-error *ngIf="connectionError"></app-connecting-error>

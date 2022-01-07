@@ -11,6 +11,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatTableModule } from '@angular/material/table';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
     exports: [
@@ -24,7 +25,8 @@ import { MatTableModule } from '@angular/material/table';
         MatAutocompleteModule,
         MatInputModule,
         MatNativeDateModule,
-        MatTableModule
+        MatTableModule,
+        MatCardModule
     ]
 })
   

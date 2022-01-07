@@ -24,6 +24,9 @@ import { LogMessageFilterComponent } from './components/lists/logMessage/log-mes
 import { LoadingSpinnerComponent } from './components/utils/loading-spinner/loading-spinner.component';
 import { ClientInstanceFilterComponent } from './components/lists/client-instance/client-instance-filter/client-instance-filter.component';
 import { ClientInstanceListComponent } from './components/lists/client-instance/client-instance-list/client-instance-list.component';
+import { HeartbeatDetectorListComponent } from './components/lists/heartbeatDetector/heartbeat-detector-list/heartbeat-detector-list.component';
+import { HeartbeatDetectorDetailComponent } from './components/lists/heartbeatDetector/heartbeat-detector-detail/heartbeat-detector-detail.component';
+import { HeartbeatDetectorItemComponent } from './components/lists/heartbeatDetector/heartbeat-detector-item/heartbeat-detector-item.component';
 
 
 @NgModule({
@@ -41,7 +44,10 @@ import { ClientInstanceListComponent } from './components/lists/client-instance/
     LogMessageFilterComponent,
     LoadingSpinnerComponent,
     ClientInstanceFilterComponent,
-    ClientInstanceListComponent
+    ClientInstanceListComponent,
+    HeartbeatDetectorListComponent,
+    HeartbeatDetectorDetailComponent,
+    HeartbeatDetectorItemComponent
   ],
   imports: [
     AppRoutingModule,

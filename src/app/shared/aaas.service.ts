@@ -8,6 +8,8 @@ import { ClientInstance } from './models/client-instance';
 import { environment } from 'src/environments/environment';
 import { throwError } from 'rxjs';
 import * as moment from 'moment';
+import { HeartbeatDetector } from './models/heartbeat-detector';
+import { Detector } from './models/detector';
 
 
 @Injectable({
@@ -68,6 +70,16 @@ export class AaasService {
 
     getClientInstanceByAppKeyAndClientID(appKey?: string, clientID?: string): Observable<ClientInstance> {
         return this.http.get<any>(`${environment.server}/clientInstances/${appKey}/${clientID}`)
+            .pipe(catchError(this.errorHandler));
+    }
+
+    getAllHeartbeatDetectors(): Observable<Array<HeartbeatDetector>> {
+        return this.http.get<any>(`${environment.server}/heartbeatDetectors`)
+            .pipe(catchError(this.errorHandler));
+    }
+
+    getDetectorByID(id?: string): Observable<Detector> { 
+        return this.http.get<any>(`${environment.server}/detectors/${id}`)
             .pipe(catchError(this.errorHandler));
     }
 }
