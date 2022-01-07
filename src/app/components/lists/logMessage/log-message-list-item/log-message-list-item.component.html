@@ -3,7 +3,7 @@
                 'list-group-item-danger': log.type == 'ERROR',
                 'list-group-item-success': log.type == 'TRACE'}">
        
-    <p>{{ log.timestamp | date:'d. MMMM y | H:mm:ss'}}</p>
+    <p>{{ log.timestamp | date:'dd. MMMM y | HH:mm:ss'}}</p>
     <p>{{ log.type }}</p><br>
     <p>{{ log.message }}</p>
     <i *ngIf="!details" class="bi bi-caret-down-fill"></i>   

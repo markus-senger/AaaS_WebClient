@@ -1,4 +1,4 @@
-<form [formGroup]="filterSettings" class="px-2 pt-3 pb-2 sticky-top bg-light">
+<form [formGroup]="filterSettings" class="pb-3">
 
     <div class="openCloseBar">
         <a (click)="filterToggle()" type="button">
@@ -46,17 +46,19 @@
 
             <mat-form-field class="col">
                 <mat-label>Zeitspanne</mat-label>
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+
                 <a *ngIf="dateFieldEmpty" type="button" matSuffix 
                     (click)="$event.stopPropagation(); resetDateField()">
                     <i class="bi bi-x"></i>
                 </a>
-                <mat-date-range-input [rangePicker]="picker">
-                    <input matStartDate formControlName="selectedDateStart" placeholder="Startdatum" autocomplete="off" (dateChange)="dateFieldEmpty = 'date'">
-                    <input matEndDate formControlName="selectedDateEnd" placeholder="Enddatum" autocomplete="off">
-                </mat-date-range-input>
-                <mat-date-range-picker #picker></mat-date-range-picker>
+
+                <p class="timeLabel">Start:</p>
+                <input matInput type="datetime-local" formControlName="selectedDateStart" autocomplete="off" (change)="dateFieldEmpty = 'date'">
+                <p class="timeLabel">End:</p>    
+                <input matInput type="datetime-local" formControlName="selectedDateEnd" autocomplete="off" (change)="dateFieldEmpty = 'date'">
+
             </mat-form-field>
+            
         
         </div>
 

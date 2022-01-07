@@ -1,8 +1,18 @@
-<app-log-message-filter (applyFilter)="filter($event)"></app-log-message-filter>
+<div class="sticky-top px-2 pt-3 pb-2 bg-light">
+    <app-log-message-filter (applyFilter)="filter($event)"></app-log-message-filter>
+    <div *ngIf="loadingFilter" class="loadingFilter">
+        <app-loading-spinner></app-loading-spinner>
+    </div>
+    <pagination-controls class="paginationControl" previousLabel="" nextLabel="" [responsive]="true" (pageChange)="pageChanged($event)"></pagination-controls>
+</div>
 
 <ul *ngIf="!connectionError" class="list-group list-group-flush">
-    <app-log-message-list-item *ngFor="let log of logMessages.slice().reverse()" [log]="log"></app-log-message-list-item>
+    <app-log-message-list-item *ngFor="let log of logMessages.slice().reverse() | paginate: {itemsPerPage: 10, currentPage: currentPage}" [log]="log"></app-log-message-list-item>
 </ul>
+
+<div *ngIf="loading" class="loading">
+    <app-loading-spinner></app-loading-spinner>
+</div>
 
 <app-connecting-error *ngIf="connectionError"></app-connecting-error>
 

@@ -38,7 +38,11 @@ export class LogMessageFilterComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.aaasService.getAllClientInstance().subscribe({next: res => this.clientInstances = res, error: () => this.connectionError = true});
+        this.aaasService.getAllClientInstance().subscribe(
+            {
+                next: res => this.clientInstances = res, 
+                error: () => this.connectionError = true
+            });
     }
 
     filterToggle(): void {
@@ -75,7 +79,6 @@ export class LogMessageFilterComponent implements OnInit {
     }
 
     submitFilter(): void {
-        console.log(this.filterSettings.value);
         this.applyFilter.emit(this.filterSettings.value);
     }
 

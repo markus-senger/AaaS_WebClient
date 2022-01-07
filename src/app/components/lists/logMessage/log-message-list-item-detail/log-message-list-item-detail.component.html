@@ -8,7 +8,7 @@
         <h3>Client-Instanz</h3>
         <p>{{clientInstance.description}}</p>
         <p>Angemeldet für Herzschläge:<br>{{clientInstance.state == "LOGGED_OUT" ? "nein" : "ja"}}</p>
-        <p>Letzter Herzschlag:<br>{{clientInstance.lastHeartbeat == "0001-01-01T00:00:00" ? "nie" : clientInstance.lastHeartbeat}}</p>
+        <p>Letzter Herzschlag:<br>{{clientInstance.lastHeartbeat == "0001-01-01T00:00:00" ? "nie" : clientInstance.lastHeartbeat | date:'dd. MMMM y | HH:mm:ss'}}</p>
     </div>
 </div>
 
