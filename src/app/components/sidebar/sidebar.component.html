@@ -9,14 +9,14 @@
             <a routerLink="home" type="button">{{projectTitle}}</a>
         </div>
         
+        <p>Client</p>
+        <a mat-list-item (click)="isSmall ? sidenav.close() : null" routerLinkActive="active" routerLink="clientInstance">Client-Instanzen</a>
         <p>Telemetriedaten</p>
-        <a mat-list-item (click)="isSmall ? sidenav.close() : null" routerLinkActive="active" routerLink="home">Alle</a>
         <a mat-list-item (click)="isSmall ? sidenav.close() : null" routerLinkActive="active" routerLink="logMessages">Log-Nachrichten</a>
         <a mat-list-item (click)="isSmall ? sidenav.close() : null" routerLinkActive="active" routerLink="counter">Zähler</a>
         <a mat-list-item (click)="isSmall ? sidenav.close() : null" routerLinkActive="active" routerLink="measurement">Messungen</a>
         <a mat-list-item (click)="isSmall ? sidenav.close() : null" routerLinkActive="active" routerLink="timeInterval">Zeitintervalle</a>
         <p>Detektoren</p>
-        <a mat-list-item (click)="isSmall ? sidenav.close() : null" routerLinkActive="active" routerLink="home">Alle</a>
         <a mat-list-item (click)="isSmall ? sidenav.close() : null" routerLinkActive="active" routerLink="home">Herzschlag-Detektoren</a>
         <a mat-list-item (click)="isSmall ? sidenav.close() : null" routerLinkActive="active" routerLink="home">Min-Max-Detektoren</a>
         <a mat-list-item (click)="isSmall ? sidenav.close() : null" routerLinkActive="active" routerLink="home">Sliding-Window-Detektoren</a>

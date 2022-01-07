@@ -7,6 +7,7 @@ import { TelemetryData } from './models/telemetry-data';
 import { ClientInstance } from './models/client-instance';
 import { environment } from 'src/environments/environment';
 import { throwError } from 'rxjs';
+import * as moment from 'moment';
 
 
 @Injectable({
@@ -15,17 +16,6 @@ import { throwError } from 'rxjs';
 export class AaasService {
 
     constructor(private http: HttpClient) { }
-
-    private createDate(date: string, endFlag: boolean = false): string {
-        if(endFlag && date == null) {
-            console.log(new Date().toJSON());
-            return new Date().toJSON();
-        }
-        var d = new Date(date);
-        d.setHours(d.getHours() + 1);
-        if(endFlag) d.setHours(d.getHours() + 24);
-        return d.toJSON();
-    }
 
     private errorHandler(error: Error | any): Observable<any> {
         console.log(error);
@@ -37,11 +27,11 @@ export class AaasService {
             .pipe(catchError(this.errorHandler));
     }
 
-    getAllLogMessagebyDate(start: string = "0000", end: string = ""): Observable<Array<LogMessage>> {   
+    getAllLogMessagebyDate(start: string = "", end: string = ""): Observable<Array<LogMessage>> { 
         return this.http.get<any>(`${environment.server}/logMessages/allByDates`, {
                     params: {
-                        StartTime: this.createDate(start),
-                        EndTime: this.createDate(end, true)
+                        StartTime: start == "" || start == null ? "1970-01-01T00:00" : start,
+                        EndTime: end == "" || end == null ? moment().utcOffset(0, true).format() : end
                     }
                 }).pipe(catchError(this.errorHandler));
     }
@@ -51,12 +41,12 @@ export class AaasService {
             .pipe(catchError(this.errorHandler));
     }
 
-    getAllLogMessageByClientInstanceByTime(clientID: string, start: string = "0000", end: string = ""): Observable<Array<LogMessage>> {    
+    getAllLogMessageByClientInstanceByTime(clientID: string, start: string = "", end: string = ""): Observable<Array<LogMessage>> {    
         return this.http.get<any>(`${environment.server}/logMessages/allByClientIdAndDate`, {
                     params: {
                         ClientId: clientID,
-                        StartTime: this.createDate(start),
-                        EndTime: this.createDate(end, true)
+                        StartTime: start == "" || start == null ? "1970-01-01T00:00" : start,
+                        EndTime: end == "" || end == null ? moment().utcOffset(0, true).format() : end
                     }
                 }).pipe(catchError(this.errorHandler));
     }
