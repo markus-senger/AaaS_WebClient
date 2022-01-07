@@ -1,0 +1,41 @@
+<form [formGroup]="filterSettings" class="pb-3">
+
+    <div class="openCloseBar">
+        <a (click)="filterToggle()" type="button">
+            <i *ngIf="filterOpen" class="bi bi-caret-up-fill"></i>
+            <i *ngIf="!filterOpen" class="bi bi-caret-down-fill"></i>
+        </a>
+        <p>Filter</p>
+    </div>
+
+    <div *ngIf="filterOpen">
+        <div class="row">
+
+            <mat-form-field color="primary" class="col">
+                <a *ngIf="descriptionFieldEmpty" type="button" matSuffix 
+                    (click)="$event.stopPropagation(); resetDescriptionField()">
+                    <i class="bi bi-x"></i>
+                </a>
+                <input matInput placeholder="Beschreibung suchen" formControlName="selectedDescription" autocomplete="off" (change)="descriptionFieldEmpty = 'description'">
+            </mat-form-field>
+
+            <mat-form-field class="col">
+                <mat-label>Status Herzschläge</mat-label>
+                <a *ngIf="stateFieldEmpty" type="button" matSuffix 
+                    (click)="$event.stopPropagation(); resetStateField()">
+                    <i class="bi bi-x"></i>
+                </a>
+                <mat-select formControlName="selectedState" [(value)]="stateFieldEmpty">
+                    <mat-option value="logged_in">angemeldet</mat-option>
+                    <mat-option value="logged_out">abgemeldet</mat-option>
+                </mat-select>
+            </mat-form-field>
+        
+        </div>
+
+        <button mat-button (click)="submitFilter()" class="row my-2 btn btn-outline-secondary btn-sm justify-content-end">
+            Filter anwenden
+        </button>
+    </div>
+
+</form>

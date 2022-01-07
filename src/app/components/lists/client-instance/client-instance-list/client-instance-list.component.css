@@ -1,0 +1,35 @@
+th {
+    background-color: var(--main-color);
+    color: var(--secondary-color);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    font-weight: normal;
+    font-size: 15px;
+}
+
+td {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.loading {
+    margin-top: 20vh;
+    font-size: 20px;
+}
+
+.loadingFilter {
+    padding-bottom: 40px;
+}
+
+.paginationControl /deep/ .ngx-pagination {
+    text-align: center;
+    padding: 0px;
+}
+
+.paginationControl /deep/ .ngx-pagination a {
+    text-decoration: none;
+}
+
+.paginationControl /deep/ .ngx-pagination .current {
+    background: var(--main-color);
+}

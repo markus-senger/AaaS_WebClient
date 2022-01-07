@@ -1,0 +1,34 @@
+<div class="sticky-top px-2 pt-3 pb-2 bg-light">
+    <app-client-instance-filter (applyFilter)="filter($event)"></app-client-instance-filter>
+    <div *ngIf="loadingFilter" class="loadingFilter">
+        <app-loading-spinner></app-loading-spinner>
+    </div>
+    <pagination-controls class="paginationControl" previousLabel="" nextLabel="" [responsive]="true" (pageChange)="pageChanged($event)"></pagination-controls>
+</div>
+
+<table *ngIf="!connectionError" class="table">
+    <thead>
+        <tr>
+            <th scope="col">Beschreibung</th>
+            <th scope="col">Status Herzschläge</th>
+            <th scope="col">Letzter Herzschlag</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let client of clientInstance | paginate: { itemsPerPage: 10, currentPage: currentPage }">
+            <td> {{client.description}} </td>
+            <td [ngClass]="{'text-warning': client.state == 'LOGGED_OUT'}"> 
+                {{client.state == "LOGGED_IN" ? "angemeldet" : "abgemeldet"}} 
+            </td>
+            <td> 
+                {{client.lastHeartbeat == "0001-01-01T00:00:00" ? "nie" : client.lastHeartbeat | date:'dd. MMMM y | HH:mm:ss'}} 
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<div *ngIf="loading" class="loading">
+    <app-loading-spinner></app-loading-spinner>
+</div>
+
+<app-connecting-error *ngIf="connectionError"></app-connecting-error>
