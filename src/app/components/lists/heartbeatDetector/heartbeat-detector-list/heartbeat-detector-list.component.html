@@ -1,6 +1,14 @@
+<div class="sticky-top px-2 pt-3 pb-2 bg-light">
+    <app-heartbeat-detector-filter (applyFilter)="filter($event)"></app-heartbeat-detector-filter>
+    <div *ngIf="loadingFilter" class="loadingFilter">
+        <app-loading-spinner></app-loading-spinner>
+    </div>
+    <pagination-controls class="paginationControl" previousLabel="" nextLabel="" [responsive]="true" (pageChange)="pageChanged($event)"></pagination-controls>
+</div>
+
 <div *ngIf="!connectionError" class="cardsContainer">
     <mat-card class="newCard"><a type="button" onclick='console.log("Hello")'><i class="bi bi-plus-circle"></i></a></mat-card>
-    <app-heartbeat-detector-item class="cards" *ngFor="let detector of heartBeatDet.slice().reverse()" [heartbeatDetector]="detector"></app-heartbeat-detector-item>
+    <app-heartbeat-detector-item class="cards" *ngFor="let detector of heartBeatDet| paginate: {itemsPerPage: 10, currentPage: currentPage}" [heartbeatDetector]="detector"></app-heartbeat-detector-item>
 </div>
 
 <div *ngIf="loading" class="loading">

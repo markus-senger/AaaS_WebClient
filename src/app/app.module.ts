@@ -25,8 +25,8 @@ import { LoadingSpinnerComponent } from './components/utils/loading-spinner/load
 import { ClientInstanceFilterComponent } from './components/lists/client-instance/client-instance-filter/client-instance-filter.component';
 import { ClientInstanceListComponent } from './components/lists/client-instance/client-instance-list/client-instance-list.component';
 import { HeartbeatDetectorListComponent } from './components/lists/heartbeatDetector/heartbeat-detector-list/heartbeat-detector-list.component';
-import { HeartbeatDetectorDetailComponent } from './components/lists/heartbeatDetector/heartbeat-detector-detail/heartbeat-detector-detail.component';
 import { HeartbeatDetectorItemComponent } from './components/lists/heartbeatDetector/heartbeat-detector-item/heartbeat-detector-item.component';
+import { HeartbeatDetectorFilterComponent } from './components/lists/heartbeatDetector/heartbeat-detector-filter/heartbeat-detector-filter.component';
 
 
 @NgModule({
@@ -46,8 +46,8 @@ import { HeartbeatDetectorItemComponent } from './components/lists/heartbeatDete
     ClientInstanceFilterComponent,
     ClientInstanceListComponent,
     HeartbeatDetectorListComponent,
-    HeartbeatDetectorDetailComponent,
-    HeartbeatDetectorItemComponent
+    HeartbeatDetectorItemComponent,
+    HeartbeatDetectorFilterComponent
   ],
   imports: [
     AppRoutingModule,

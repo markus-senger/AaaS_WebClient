@@ -19,12 +19,18 @@
                   <div class="col text-start">{{detector.lastCheck | date:'dd. MMMM y | HH:mm:ss'}}</div>
                 </div>
                 <div class="row mb-2 color">
+                    <div class="col text-start">Max. Ausfall Herzschläge</div>
+                    <div class="col text-start">{{heartbeatDetector.maxMissedBeats}}</div>
+                  </div>
+                <div class="row mb-2">
                     <div class="col text-start">Client-Name</div>
                     <div class="col text-start">{{client.description}}</div>
                 </div>
-                <div class="row mb-2">
+                <div class="row mb-2 color">
                     <div class="col text-start">Client-Herzschlag-Status</div>
-                    <div class="col text-start">{{client.state}}</div>
+                    <div class="col text-start" [ngClass]="{'text-warning': client.state == 'LOGGED_OUT'}">
+                        {{client.state == "LOGGED_OUT" ? "abgemeldet" : "angemeldet"}}
+                    </div>
                 </div>
             </div>
         </mat-card-content>

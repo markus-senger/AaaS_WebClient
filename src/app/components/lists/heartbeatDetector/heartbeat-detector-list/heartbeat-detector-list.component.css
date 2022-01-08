@@ -1,6 +1,6 @@
 .cardsContainer {
     text-align: center;
-    margin-top: 20px;
+    margin-top: 0px;
     margin-bottom: 20px;
 }
 
@@ -39,4 +39,17 @@
 
 .loadingFilter {
     padding-bottom: 40px;
+}
+
+.paginationControl /deep/ .ngx-pagination {
+    text-align: center;
+    padding: 0px;
+}
+
+.paginationControl /deep/ .ngx-pagination a {
+    text-decoration: none;
+}
+
+.paginationControl /deep/ .ngx-pagination .current {
+    background: var(--main-color);
 }
