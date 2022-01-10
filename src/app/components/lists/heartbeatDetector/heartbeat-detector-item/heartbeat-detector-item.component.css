@@ -2,6 +2,45 @@
     width: 450px;
 }
 
+.catHeader {
+    display: inline-flex;
+    margin-top: 15px;
+    font-size: 20px;
+    color: var(--main-color);
+}
+
+.catHeader h1 {
+    font-size: 20px;
+    padding: 0;
+    margin: 0;
+}
+
+.catHeader h2 {
+    padding: 0;
+    margin: 0;
+    margin-left: 10px;
+    font-size: 12px;
+}
+
+.input-group-append button {
+    font-size: 10px;
+}
+
+.input-group-append input {
+    height: 20px;
+}
+
+.header .input-group {
+    display: block;
+    margin-bottom: 20px;
+}
+
+.details {
+    color: gray;
+    text-align: left;
+    cursor: pointer;
+}
+
 @media only screen and (max-width: 480px) {
     .heartbeat-card {
         width: auto;
@@ -23,3 +62,5 @@
 .loading {
     font-size: 20px;
 }
+
+

@@ -1,41 +1,143 @@
 <mat-card class="heartbeat-card">
-    <div *ngIf="loading" class="loading">
-        <app-loading-spinner></app-loading-spinner>
-    </div>
-
     <div *ngIf="!connectionError">
         <div class="header">
             <mat-card-title>Herzschlag-Detektor</mat-card-title>
-            <mat-card-subtitle>{{detector.name}}</mat-card-subtitle>
+            <mat-card-subtitle *ngIf="!editDetector">{{heartbeatDetector.d_name}}</mat-card-subtitle>
+            <div *ngIf="editDetector" class="input-group">
+                <div class="input-group-append">
+                    <input [(ngModel)]="heartbeatDetector.d_name" (change)="update = true" type="text" placeholder="{{heartbeatDetector.d_name}}">
+                    <button class="btn btn-sm btn-outline-primary py-0" type="button" (click)="updateDetector()">Update</button>
+                </div>
+            </div>
         </div>
         <mat-card-content>
             <div class="container">
                 <div class="row mb-2 color">
-                  <div class="col text-start">Zeit bis nächste Überprüfung</div>
-                  <div class="col text-start">{{detector.timeBetweenChecks}}</div>
+                    <div class="col text-start">Zeit bis nächste Überprüfung</div>
+                    <div *ngIf="!editDetector" class="col text-start">{{heartbeatDetector.d_timeBetweenChecks}}</div>
+                    <div *ngIf="editDetector" class="col text-start input-group">
+                        <div class="input-group-append">
+                            <input type="time" step="1" [(ngModel)]="heartbeatDetector.d_timeBetweenChecks" (change)="update = true">
+                            <button class="btn btn-sm btn-outline-primary py-0" type="button" (click)="updateDetector()">Update</button>
+                        </div>
+                    </div>
                 </div>
                 <div class="row mb-2">
                   <div class="col text-start">Letzte Überprüfung</div>
-                  <div class="col text-start">{{detector.lastCheck | date:'dd. MMMM y | HH:mm:ss'}}</div>
+                  <div class="col text-start">{{heartbeatDetector.d_lastCheck | date:'dd. MMMM y | HH:mm:ss'}}</div>
                 </div>
                 <div class="row mb-2 color">
                     <div class="col text-start">Max. Ausfall Herzschläge</div>
-                    <div class="col text-start">{{heartbeatDetector.maxMissedBeats}}</div>
-                  </div>
-                <div class="row mb-2">
-                    <div class="col text-start">Client-Name</div>
-                    <div class="col text-start">{{client.description}}</div>
+                    <div *ngIf="!editDetector" class="col text-start">{{heartbeatDetector.d_maxMissedBeats}}</div>
+                    <div *ngIf="editDetector" class="col text-start input-group">
+                        <div class="input-group-append">
+                            <input type="number" min="0" [(ngModel)]="heartbeatDetector.d_maxMissedBeats" (change)="update = true">
+                            <button class="btn btn-sm btn-outline-primary py-0" type="button" (click)="updateDetector()">Update</button>
+                        </div>
+                    </div>
                 </div>
+            </div>
+
+            <h1 class="catHeader">Client-Instanz</h1>
+            <div class="container">
                 <div class="row mb-2 color">
+                    <div class="col text-start">Client-Name</div>
+                    <div class="col text-start">{{heartbeatDetector.c_description}}</div>
+                </div>
+                <div class="row mb-2">
                     <div class="col text-start">Client-Herzschlag-Status</div>
-                    <div class="col text-start" [ngClass]="{'text-warning': client.state == 'LOGGED_OUT'}">
-                        {{client.state == "LOGGED_OUT" ? "abgemeldet" : "angemeldet"}}
+                    <div class="col text-start" [ngClass]="{'text-warning': heartbeatDetector.c_state == 'LOGGED_OUT'}">
+                        {{heartbeatDetector.c_state == "LOGGED_OUT" ? "abgemeldet" : "angemeldet"}}
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="!heartbeatDetector.a_actionID && editDetector">
+                <button *ngIf="!createEMail" (click)="createEMail = true; createWebHook= false;" class="btn btn-outline-primary btn-sm m-2" mat-button>E-Mail erstellen</button>
+                <button *ngIf="!createWebHook" (click)="createWebHook = true; createEMail = false;" class="btn btn-outline-primary btn-sm m-2" mat-button>Web-Hook erstellen</button>
+            </div>
+
+            <app-email-form-for-creating *ngIf="createEMail"></app-email-form-for-creating>
+            <app-web-hook-form-for-creating *ngIf="createWebHook"></app-web-hook-form-for-creating>
+            
+            <div *ngIf="heartbeatDetector.a_actionID">
+                <div class="catHeader">
+                    <h1>Aktion</h1>
+                    <h2 *ngIf="heartbeatDetector.c_state == 'LOGGED_OUT'" class="text-warning">(deaktiviert)</h2>
+                </div>
+                <div (click)="openDetails()" class="details mb-2">
+                    <i *ngIf="!details" class="bi bi-caret-down-fill">mehr anzeigen</i>   
+                    <i *ngIf="details" class="bi bi-caret-up-fill">weniger anzeigen</i> 
+                </div>
+                <div class="container">
+                    <div class="row mb-2 color">
+                        <div class="col text-start">Typ</div>
+                        <div class="col text-start">{{heartbeatDetector.a_w_url == undefined ? "E-Mail" : "Web-Hook"}}</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col text-start">Name</div>
+                        <div class="col text-start">{{heartbeatDetector.a_name}}</div>
+                    </div>
+                    <div *ngIf="heartbeatDetector.a_w_url && details">
+                        <div class="row mb-2 color">
+                            <div class="col text-start">URL</div>
+                            <div *ngIf="!editDetector" class="col text-start">{{heartbeatDetector.a_w_url}}</div>
+                            <div *ngIf="editDetector" class="col text-start input-group">
+                                <div class="input-group-append">
+                                    <input type="text" [(ngModel)]="heartbeatDetector.a_w_url" (change)="update = true">
+                                    <button class="btn btn-sm btn-outline-primary py-0" type="button" (click)="updateWebHook()">Update</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col text-start">Zusatzinfo</div>
+                            <div *ngIf="!editDetector" class="col text-start">{{heartbeatDetector.a_w_tool}}</div>
+                            <div *ngIf="editDetector" class="col text-start input-group">
+                                <div class="input-group-append">
+                                    <input type="text" [(ngModel)]="heartbeatDetector.a_w_tool" (change)="update = true">
+                                    <button class="btn btn-sm btn-outline-primary py-0" type="button" (click)="updateWebHook()">Update</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="!heartbeatDetector.a_w_url && details">
+                        <div class="row mb-2 color">
+                            <div class="col text-start">Betreff</div>
+                            <div *ngIf="!editDetector" class="col text-start">{{heartbeatDetector.a_e_subject}}</div>
+                            <div *ngIf="editDetector" class="col text-start input-group">
+                                <div class="input-group-append">
+                                    <input type="text" [(ngModel)]="heartbeatDetector.a_e_subject" (change)="update = true">
+                                    <button class="btn btn-sm btn-outline-primary py-0" type="button" (click)="updateEMail()">Update</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col text-start">Nachricht</div>
+                            <div *ngIf="!editDetector" class="col text-start">{{heartbeatDetector.a_e_content}}</div>
+                            <div *ngIf="editDetector" class="col text-start input-group">
+                                <div class="input-group-append">
+                                    <textarea rows="5" [(ngModel)]="heartbeatDetector.a_e_content" (change)="update = true"></textarea>
+                                    <button class="btn btn-sm btn-outline-primary py-0" type="button" (click)="updateEMail()">Update</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-2 color">
+                            <div class="col text-start">Empfänger</div>
+                            <div *ngIf="!editDetector" class="col text-start">{{heartbeatDetector.a_e_sentTo}}</div>
+                            <div *ngIf="editDetector" class="col text-start input-group">
+                                <div class="input-group-append">
+                                    <input type="email" [(ngModel)]="heartbeatDetector.a_e_sentTo" (change)="update = true">
+                                    <button class="btn btn-sm btn-outline-primary py-0" type="button" (click)="updateEMail()">Update</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </mat-card-content>
         <mat-card-actions>
-            <button class="btn btn-outline-secondary btn-sm" mat-button>Bearbeiten</button>
+            <button *ngIf="!editDetector" (click)="edit()" class="btn btn-outline-secondary btn-sm" mat-button>Bearbeiten</button>
+            <button *ngIf="editDetector" (click)="edit()" class="btn btn-outline-danger btn-sm" mat-button>Bearbeiten beenden</button>
         </mat-card-actions>
     </div>
     

@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './modules/app-routing.module';
 import { AppMaterialModule } from './modules/app-material.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -27,6 +28,8 @@ import { ClientInstanceListComponent } from './components/lists/client-instance/
 import { HeartbeatDetectorListComponent } from './components/lists/heartbeatDetector/heartbeat-detector-list/heartbeat-detector-list.component';
 import { HeartbeatDetectorItemComponent } from './components/lists/heartbeatDetector/heartbeat-detector-item/heartbeat-detector-item.component';
 import { HeartbeatDetectorFilterComponent } from './components/lists/heartbeatDetector/heartbeat-detector-filter/heartbeat-detector-filter.component';
+import { EMailFormForCreatingComponent } from './components/actionForms/email-form-for-creating/email-form-for-creating.component';
+import { WebHookFormForCreatingComponent } from './components/actionForms/web-hook-form-for-creating/web-hook-form-for-creating.component';
 
 
 @NgModule({
@@ -47,7 +50,9 @@ import { HeartbeatDetectorFilterComponent } from './components/lists/heartbeatDe
     ClientInstanceListComponent,
     HeartbeatDetectorListComponent,
     HeartbeatDetectorItemComponent,
-    HeartbeatDetectorFilterComponent
+    HeartbeatDetectorFilterComponent,
+    EMailFormForCreatingComponent,
+    WebHookFormForCreatingComponent
   ],
   imports: [
     AppRoutingModule,
@@ -57,7 +62,8 @@ import { HeartbeatDetectorFilterComponent } from './components/lists/heartbeatDe
     HttpClientModule,
     NoopAnimationsModule,
     AppMaterialModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
   ],
   providers: [ ],
   bootstrap: [AppComponent]

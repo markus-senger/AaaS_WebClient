@@ -1,0 +1,9 @@
+h1 {
+    font-size: 20px;
+    margin-top: 10px;
+    color: var(--main-color);
+}
+
+button {
+    margin-top: 15px;
+}
