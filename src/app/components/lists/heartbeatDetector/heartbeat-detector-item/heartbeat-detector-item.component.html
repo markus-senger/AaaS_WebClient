@@ -5,7 +5,7 @@
             <mat-card-subtitle *ngIf="!editDetector">{{heartbeatDetector.d_name}}</mat-card-subtitle>
             <div *ngIf="editDetector" class="input-group">
                 <div class="input-group-append">
-                    <input [(ngModel)]="heartbeatDetector.d_name" (change)="update = true" type="text" placeholder="{{heartbeatDetector.d_name}}">
+                    <input [(ngModel)]="heartbeatDetector.d_name" (change)="detectorUpdate = true" type="text" placeholder="{{heartbeatDetector.d_name}}">
                     <button class="btn btn-sm btn-outline-primary py-0" type="button" (click)="updateDetector()">Update</button>
                 </div>
             </div>
@@ -17,7 +17,7 @@
                     <div *ngIf="!editDetector" class="col text-start">{{heartbeatDetector.d_timeBetweenChecks}}</div>
                     <div *ngIf="editDetector" class="col text-start input-group">
                         <div class="input-group-append">
-                            <input type="time" step="1" [(ngModel)]="heartbeatDetector.d_timeBetweenChecks" (change)="update = true">
+                            <input type="time" step="1" [(ngModel)]="heartbeatDetector.d_timeBetweenChecks" (change)="detectorUpdate = true">
                             <button class="btn btn-sm btn-outline-primary py-0" type="button" (click)="updateDetector()">Update</button>
                         </div>
                     </div>
@@ -31,7 +31,7 @@
                     <div *ngIf="!editDetector" class="col text-start">{{heartbeatDetector.d_maxMissedBeats}}</div>
                     <div *ngIf="editDetector" class="col text-start input-group">
                         <div class="input-group-append">
-                            <input type="number" min="0" [(ngModel)]="heartbeatDetector.d_maxMissedBeats" (change)="update = true">
+                            <input type="number" min="0" [(ngModel)]="heartbeatDetector.d_maxMissedBeats" (change)="detectorUpdate = true">
                             <button class="btn btn-sm btn-outline-primary py-0" type="button" (click)="updateDetector()">Update</button>
                         </div>
                     </div>
@@ -84,7 +84,7 @@
                             <div *ngIf="!editDetector" class="col text-start">{{heartbeatDetector.a_w_url}}</div>
                             <div *ngIf="editDetector" class="col text-start input-group">
                                 <div class="input-group-append">
-                                    <input type="text" [(ngModel)]="heartbeatDetector.a_w_url" (change)="update = true">
+                                    <input type="text" [(ngModel)]="heartbeatDetector.a_w_url" (change)="webHookUpdate = true">
                                     <button class="btn btn-sm btn-outline-primary py-0" type="button" (click)="updateWebHook()">Update</button>
                                 </div>
                             </div>
@@ -94,7 +94,7 @@
                             <div *ngIf="!editDetector" class="col text-start">{{heartbeatDetector.a_w_tool}}</div>
                             <div *ngIf="editDetector" class="col text-start input-group">
                                 <div class="input-group-append">
-                                    <input type="text" [(ngModel)]="heartbeatDetector.a_w_tool" (change)="update = true">
+                                    <input type="text" [(ngModel)]="heartbeatDetector.a_w_tool" (change)="webHookUpdate = true">
                                     <button class="btn btn-sm btn-outline-primary py-0" type="button" (click)="updateWebHook()">Update</button>
                                 </div>
                             </div>
@@ -106,7 +106,7 @@
                             <div *ngIf="!editDetector" class="col text-start">{{heartbeatDetector.a_e_subject}}</div>
                             <div *ngIf="editDetector" class="col text-start input-group">
                                 <div class="input-group-append">
-                                    <input type="text" [(ngModel)]="heartbeatDetector.a_e_subject" (change)="update = true">
+                                    <input type="text" [(ngModel)]="heartbeatDetector.a_e_subject" (change)="eMailUpdate = true">
                                     <button class="btn btn-sm btn-outline-primary py-0" type="button" (click)="updateEMail()">Update</button>
                                 </div>
                             </div>
@@ -116,7 +116,7 @@
                             <div *ngIf="!editDetector" class="col text-start">{{heartbeatDetector.a_e_content}}</div>
                             <div *ngIf="editDetector" class="col text-start input-group">
                                 <div class="input-group-append">
-                                    <textarea rows="5" [(ngModel)]="heartbeatDetector.a_e_content" (change)="update = true"></textarea>
+                                    <textarea rows="5" [(ngModel)]="heartbeatDetector.a_e_content" (change)="eMailUpdate = true"></textarea>
                                     <button class="btn btn-sm btn-outline-primary py-0" type="button" (click)="updateEMail()">Update</button>
                                 </div>
                             </div>
@@ -126,7 +126,7 @@
                             <div *ngIf="!editDetector" class="col text-start">{{heartbeatDetector.a_e_sentTo}}</div>
                             <div *ngIf="editDetector" class="col text-start input-group">
                                 <div class="input-group-append">
-                                    <input type="email" [(ngModel)]="heartbeatDetector.a_e_sentTo" (change)="update = true">
+                                    <input type="email" [(ngModel)]="heartbeatDetector.a_e_sentTo" (change)="eMailUpdate = true">
                                     <button class="btn btn-sm btn-outline-primary py-0" type="button" (click)="updateEMail()">Update</button>
                                 </div>
                             </div>

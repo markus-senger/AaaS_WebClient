@@ -24,7 +24,9 @@ export class HeartbeatDetectorItemComponent {
     connectionError: boolean = false;
     loading: boolean = false;
 
-    update: boolean = false;
+    detectorUpdate: boolean = false;
+    eMailUpdate: boolean = false;
+    webHookUpdate: boolean = false;
 
     constructor(private aaasService: AaasService) { }
 
@@ -42,7 +44,7 @@ export class HeartbeatDetectorItemComponent {
     }
 
     updateDetector(): void {
-        if(this.update) {
+        if(this.detectorUpdate) {
             this.loading = true;
             var update = new HeartbeatDetectorUpdate();
             update.maxMissedBeats = this.heartbeatDetector.d_maxMissedBeats;
@@ -55,12 +57,12 @@ export class HeartbeatDetectorItemComponent {
                     {
                         error: () => this.connectionError = true
                     });
-            this.update = false;
+            this.detectorUpdate = false;
         }
     }
 
     updateWebHook(): void {
-        if(this.update) {
+        if(this.webHookUpdate) {
             this.loading = true;
             var update = new WebHookUpdate();
             update.tool = this.heartbeatDetector.a_w_tool;
@@ -72,12 +74,12 @@ export class HeartbeatDetectorItemComponent {
                     {
                         error: () => this.connectionError = true
                     });
-            this.update = false;
+            this.webHookUpdate = false;
         }
     }
 
     updateEMail(): void {
-        if(this.update) {
+        if(this.eMailUpdate) {
             this.loading = true;
             var update = new EMailUpdate();
             update.content = this.heartbeatDetector.a_e_content;
@@ -90,7 +92,7 @@ export class HeartbeatDetectorItemComponent {
                     {
                         error: () => this.connectionError = true
                     });
-            this.update = false;
+            this.eMailUpdate = false;
         }
     }
 
