@@ -2,16 +2,23 @@
 <div class="container">
     <div class="row mb-2 color">
         <div class="col text-start">Aktion-Name</div>
-        <input class="col text-start" type="text">
+        <input [(ngModel)]="name" name="name" class="col text-start" type="text">
     </div>
     <div class="row mb-2 color">
         <div class="col text-start">URL</div>
-        <input class="col text-start" type="text">
+        <input [(ngModel)]="url" name="url" class="col text-start" type="text">
     </div>
     <div class="row mb-2 color">
         <div class="col text-start">Zusatzinfo</div>
-        <input class="col text-start" type="text">
+        <input [(ngModel)]="tool" name="tool" class="col text-start" type="text">
     </div>
 </div>
 
-<button class="btn btn-sm btn-outline-primary py-0" type="button">Web-Hook Aktion dem Detektor zuweisen</button>
+<button [disabled]="name == '' || tool == '' || url == ''" 
+    class="btn btn-sm btn-outline-primary py-0" type="button" (click)="submit()">
+    Web-Hookl Aktion dem Detektor zuweisen
+</button>
+
+<app-loading-spinner *ngIf="loading"></app-loading-spinner>
+
+<app-connecting-error *ngIf="connectionError"></app-connecting-error>

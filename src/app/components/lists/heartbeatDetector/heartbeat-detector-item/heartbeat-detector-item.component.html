@@ -1,5 +1,10 @@
 <mat-card class="heartbeat-card">
-    <div *ngIf="!connectionError">
+    <div (click)="disableEnableDetector()" class="disableEnableButton">
+        <i class="mx-2 bi bi-power"></i>
+        <p *ngIf="!active" class="text-warning">offline</p>
+        <p *ngIf="active" class="text-success">online</p>
+    </div>
+    <div [ngClass]="{'heartbeat-card-disabled': !active}" *ngIf="!connectionError">
         <div class="header">
             <mat-card-title>Herzschlag-Detektor</mat-card-title>
             <mat-card-subtitle *ngIf="!editDetector">{{heartbeatDetector.d_name}}</mat-card-subtitle>
@@ -57,13 +62,16 @@
                 <button *ngIf="!createWebHook" (click)="createWebHook = true; createEMail = false;" class="btn btn-outline-primary btn-sm m-2" mat-button>Web-Hook erstellen</button>
             </div>
 
-            <app-email-form-for-creating *ngIf="createEMail"></app-email-form-for-creating>
-            <app-web-hook-form-for-creating *ngIf="createWebHook"></app-web-hook-form-for-creating>
+            <app-email-form-for-creating *ngIf="createEMail" [detectorID]="heartbeatDetector.d_detectorID" (reload)="inserted()"></app-email-form-for-creating>
+            <app-web-hook-form-for-creating *ngIf="createWebHook" [detectorID]="heartbeatDetector.d_detectorID" (reload)="inserted()"></app-web-hook-form-for-creating>
             
             <div *ngIf="heartbeatDetector.a_actionID">
                 <div class="catHeader">
                     <h1>Aktion</h1>
                     <h2 *ngIf="heartbeatDetector.c_state == 'LOGGED_OUT'" class="text-warning">(deaktiviert)</h2>
+                </div>
+                <div *ngIf="editDetector">
+                    <button (click)="removeAction()" class="actionRemoveButton btn btn-outline-primary btn-sm m-2">Aktion entfernen</button>
                 </div>
                 <div (click)="openDetails()" class="details mb-2">
                     <i *ngIf="!details" class="bi bi-caret-down-fill">mehr anzeigen</i>   

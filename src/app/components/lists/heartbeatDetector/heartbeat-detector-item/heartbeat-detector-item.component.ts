@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { AaasService } from 'src/app/shared/aaas.service';
 import { HeartbeatDetector } from 'src/app/shared/models/heartbeat-detector';
 import { HeartbeatDetectorUpdate } from 'src/app/shared/models/heartbeat-detector-update';
@@ -14,7 +14,11 @@ import { EMailUpdate } from 'src/app/shared/models/e-mail-update';
 export class HeartbeatDetectorItemComponent {
 
     @Input() heartbeatDetector: HeartbeatDetector = new HeartbeatDetector();
+    @Input() heartbeatDetectorOnline: boolean = true;
     @Output() reload = new EventEmitter();
+    @Output() detectorOffline = new EventEmitter();
+
+    active: boolean;
 
     details: boolean = false;
     editDetector: boolean = false;
@@ -28,7 +32,19 @@ export class HeartbeatDetectorItemComponent {
     eMailUpdate: boolean = false;
     webHookUpdate: boolean = false;
 
-    constructor(private aaasService: AaasService) { }
+    constructor(private aaasService: AaasService) {
+        this.active = this.heartbeatDetectorOnline;
+    }
+
+    disableEnableDetector(): void {
+        this.active = this.active == true ? false : true;
+        this.details = false;
+        this.editDetector = false;
+
+        if(!this.active) {
+            this.detectorOffline.emit(this.heartbeatDetector.d_detectorID);
+        }
+    }
 
     openDetails(): void {
         this.details = this.details == false ? true : false;
@@ -41,6 +57,28 @@ export class HeartbeatDetectorItemComponent {
             this.createEMail = false;
             this.createWebHook = false;
         }
+    }
+
+    inserted(): void {
+        this.reload.emit("update");
+    }
+
+    removeAction(): void {
+        if(this.heartbeatDetector.a_w_url == undefined) {
+            this.aaasService.deleteEMail(this.heartbeatDetector.a_actionID).
+                subscribe(
+                {
+                    error: () => this.connectionError = true
+                });
+        }
+        else {
+            this.aaasService.deleteWebHook(this.heartbeatDetector.a_actionID).
+                subscribe(
+                {
+                    error: () => this.connectionError = true
+                });
+        }
+        this.reload.emit("update");
     }
 
     updateDetector(): void {

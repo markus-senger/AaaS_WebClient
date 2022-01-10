@@ -2,6 +2,23 @@
     width: 450px;
 }
 
+.heartbeat-card-disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.disableEnableButton {
+    display: flex;
+    width: 20px;
+    text-align: left;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.disableEnableButton p {
+    margin: 0;
+}
+
 .catHeader {
     display: inline-flex;
     margin-top: 15px;
@@ -61,6 +78,10 @@
 
 .loading {
     font-size: 20px;
+}
+
+.actionRemoveButton {
+    padding: 1px 5px 1px 5px;
 }
 
 

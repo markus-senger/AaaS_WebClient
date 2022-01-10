@@ -15,8 +15,10 @@ import { HeartbeatDetectorUpdate } from './models/heartbeat-detector-update';
 import { Action } from './models/action';
 import { EMail } from './models/e-mail';
 import { EMailUpdate } from './models/e-mail-update';
+import { EMailInsert } from './models/e-mail-insert';
 import { WebHook } from './models/web-hook';
 import { WebHookUpdate } from './models/web-hook-update';
+import { WebHookInsert } from './models/web-hook-insert';
 
 
 @Injectable({
@@ -85,7 +87,7 @@ export class AaasService {
             .pipe(catchError(this.errorHandler));
     }
 
-    updateHeartbeatDetector(id?: string, hb?: HeartbeatDetectorUpdate): Observable<Array<HeartbeatDetector>> {
+    updateHeartbeatDetector(id?: string, hb?: HeartbeatDetectorUpdate): Observable<HeartbeatDetector> {
         return this.http.put<any>(`${environment.server}/heartbeatDetectors/${id}`, hb)
             .pipe(catchError(this.errorHandler));
     }
@@ -105,8 +107,17 @@ export class AaasService {
             .pipe(catchError(this.errorHandler));
     }
 
-    updateEMail(id?: string, em?: EMailUpdate): Observable<Array<HeartbeatDetector>> {
+    updateEMail(id?: string, em?: EMailUpdate): Observable<EMail> {
         return this.http.put<any>(`${environment.server}/eMails/${id}`, em)
+            .pipe(catchError(this.errorHandler));
+    }
+
+    deleteEMail(id?: string): Observable<EMail> {
+        return this.http.delete<any>(`${environment.server}/eMails/${id}`);
+    }
+
+    insertEMail(em?: EMailInsert): Observable<EMail> {
+        return this.http.post<any>(`${environment.server}/eMail`, em)
             .pipe(catchError(this.errorHandler));
     }
 
@@ -115,8 +126,17 @@ export class AaasService {
             .pipe(catchError(this.errorHandler));
     }
 
-    updateWebHook(id?: string, wh?: WebHookUpdate): Observable<Array<HeartbeatDetector>> {
+    updateWebHook(id?: string, wh?: WebHookUpdate): Observable<WebHook> {
         return this.http.put<any>(`${environment.server}/webHooks/${id}`, wh)
             .pipe(catchError(this.errorHandler));
+    }
+
+    insertWebHook(wh?: WebHookInsert): Observable<WebHook> {
+        return this.http.post<any>(`${environment.server}/webHook`, wh)
+            .pipe(catchError(this.errorHandler));
+    }
+
+    deleteWebHook(id?: string): Observable<WebHook> {
+        return this.http.delete<any>(`${environment.server}/webHooks/${id}`);
     }
 }

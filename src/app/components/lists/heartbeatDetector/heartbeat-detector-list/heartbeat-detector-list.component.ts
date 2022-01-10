@@ -115,11 +115,11 @@ export class HeartbeatDetectorListComponent implements OnInit {
     }
 
     getEMail(det: HeartbeatDetector): void {
-        this.aaasService.getEMailByDetectorID(det.a_actionID).subscribe(
+        this.aaasService.getEMailByDetectorID(det.d_detectorID).subscribe(
             {
                 next: res => 
                             {
-                                if(res != null) {  
+                                if(res != null) { 
                                     det.a_e_subject = res.subject; 
                                     det.a_e_content = res.content;
                                     det.a_e_sentTo = res.sentTo;
@@ -130,7 +130,7 @@ export class HeartbeatDetectorListComponent implements OnInit {
     }
 
     getWebHook(det: HeartbeatDetector): void {
-        this.aaasService.getWebHookByDetectorID(det.a_actionID).subscribe(
+        this.aaasService.getWebHookByDetectorID(det.d_detectorID).subscribe(
             {
                 next: res => 
                             {  

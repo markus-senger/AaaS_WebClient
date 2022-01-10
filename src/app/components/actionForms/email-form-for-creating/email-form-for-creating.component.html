@@ -1,21 +1,28 @@
 <h1>E-Mail Aktion</h1>
-<div class="container">
+<form name="data" class="container">
     <div class="row mb-2 color">
         <div class="col text-start">Aktion-Name</div>
-        <input class="col text-start" type="text">
+        <input [(ngModel)]="name" name="name" class="col text-start" type="text">
     </div>
     <div class="row mb-2 color">
         <div class="col text-start">Betreff</div>
-        <input class="col text-start" type="text">
+        <input [(ngModel)]="subject" name="subject" class="col text-start" type="text">
     </div>
     <div class="row mb-2 color">
         <div class="col text-start">Nachricht</div>
-        <textarea class="col text-start" rows="5" type="text"></textarea>
+        <textarea [(ngModel)]="message" name="message" class="col text-start" rows="5" type="text"></textarea>
     </div>
     <div class="row mb-2 color">
         <div class="col text-start">Empfänger</div>
-        <input class="col text-start" type="text">
+        <input [(ngModel)]="sentTo" name="sentTo" class="col text-start" type="text">
     </div>
-</div>
+</form>
 
-<button class="btn btn-sm btn-outline-primary py-0" type="button">E-Mail Aktion dem Detektor zuweisen</button>
+<button [disabled]="name == '' || subject == '' || message == '' || sentTo == ''" 
+    class="btn btn-sm btn-outline-primary py-0" type="button" (click)="submit()">
+        E-Mail Aktion dem Detektor zuweisen
+</button>
+
+<app-loading-spinner *ngIf="loading"></app-loading-spinner>
+
+<app-connecting-error *ngIf="connectionError"></app-connecting-error>

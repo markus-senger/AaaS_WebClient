@@ -7,7 +7,7 @@
 </div>
 
 <div *ngIf="!connectionError" class="cardsContainer">
-    <mat-card class="newCard"><a type="button" onclick='console.log("Hello")'><i class="bi bi-plus-circle"></i></a></mat-card>
+    <!--<mat-card class="newCard"><a type="button" onclick='console.log("Hello")'><i class="bi bi-plus-circle"></i></a></mat-card>-->
     <app-heartbeat-detector-item class="cards" *ngFor="let detector of heartBeatDet| paginate: {itemsPerPage: 10, currentPage: currentPage}" [heartbeatDetector]="detector" (reload)="ngOnInit()"></app-heartbeat-detector-item>
 </div>
 
