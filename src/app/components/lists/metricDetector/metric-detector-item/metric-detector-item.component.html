@@ -1,0 +1,217 @@
+<mat-card class="detector-card">
+    <div (click)="disableEnableDetector()" class="disableEnableButton">
+        <i class="mx-2 bi bi-power"></i>
+        <p *ngIf="!metricDetector.d_active" class="markDisabled text-warning">offline</p>
+        <p *ngIf="metricDetector.d_active" class="markDisabled text-success">online</p>
+    </div>
+    <div [ngClass]="{'detector-card-disabled': !metricDetector.d_active}" *ngIf="!connectionError">
+        <div class="header">
+            <mat-card-title *ngIf="metricDetector.d_m_min != undefined">Min-Max-Detektor</mat-card-title>
+            <mat-card-title *ngIf="metricDetector.d_m_min == undefined">Sliding-Window-Detektor</mat-card-title>
+            <mat-card-subtitle *ngIf="!editDetector">{{metricDetector.d_name}}</mat-card-subtitle>
+            <div *ngIf="editDetector" class="input-group">
+                <div class="input-group-append">
+                    <input [(ngModel)]="metricDetector.d_name" (change)="detectorUpdate = true" type="text" placeholder="{{metricDetector.d_name}}">
+                    <button class="btn btn-sm btn-outline-primary py-0" type="button" (click)="updateDetector()">Update</button>
+                </div>
+            </div>
+        </div>
+        <mat-card-content>
+            <div class="container">
+                <div class="row mb-2 color">
+                    <div class="col text-start">Zeit bis nächste Überprüfung</div>
+                    <div *ngIf="!editDetector" class="col text-start">{{metricDetector.d_timeBetweenChecks}}</div>
+                    <div *ngIf="editDetector" class="col text-start input-group">
+                        <div class="input-group-append">
+                            <input type="time" step="1" [(ngModel)]="metricDetector.d_timeBetweenChecks" (change)="detectorUpdate = true">
+                            <button class="btn btn-sm btn-outline-primary py-0" type="button" (click)="updateDetector()">Update</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                  <div class="col text-start">Letzte Überprüfung</div>
+                  <div class="col text-start">{{metricDetector.d_lastCheck | date:'dd. MMMM y | HH:mm:ss'}}</div>
+                </div>
+                <div *ngIf="metricDetector.d_m_min != undefined">
+                    <div class="row mb-2 color">
+                        <div class="col text-start">Min. Wert</div>
+                        <div *ngIf="!editDetector" class="col text-start">{{metricDetector.d_m_min}}</div>
+                        <div *ngIf="editDetector" class="col text-start input-group">
+                            <div class="input-group-append">
+                                <input type="number" [(ngModel)]="metricDetector.d_m_min" (change)="detectorUpdate = true">
+                                <button class="btn btn-sm btn-outline-primary py-0" type="button" (click)="updateDetector()">Update</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col text-start">Max. Wert</div>
+                        <div *ngIf="!editDetector" class="col text-start">{{metricDetector.d_m_max}}</div>
+                        <div *ngIf="editDetector" class="col text-start input-group">
+                            <div class="input-group-append">
+                                <input type="number" [(ngModel)]="metricDetector.d_m_max" (change)="detectorUpdate = true">
+                                <button class="btn btn-sm btn-outline-primary py-0" type="button" (click)="updateDetector()">Update</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-2 color">
+                        <div class="col text-start">Abweichung (+/-)</div>
+                        <div *ngIf="!editDetector" class="col text-start">{{metricDetector.d_m_threshold}}</div>
+                        <div *ngIf="editDetector" class="col text-start input-group">
+                            <div class="input-group-append">
+                                <input type="number" min="0" [(ngModel)]="metricDetector.d_m_threshold" (change)="detectorUpdate = true">
+                                <button class="btn btn-sm btn-outline-primary py-0" type="button" (click)="updateDetector()">Update</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="metricDetector.d_m_min == undefined">
+                    <div class="row mb-2 color">
+                        <div class="col text-start">Vergleichswert</div>
+                        <div *ngIf="!editDetector" class="col text-start">{{metricDetector.d_s_threshold}}</div>
+                        <div *ngIf="editDetector" class="col text-start input-group">
+                            <div class="input-group-append">
+                                <input type="number" [(ngModel)]="metricDetector.d_s_threshold" (change)="detectorUpdate = true">
+                                <button class="btn btn-sm btn-outline-primary py-0" type="button" (click)="updateDetector()">Update</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col text-start">Operation</div>
+                        <div *ngIf="!editDetector" class="col text-start">{{metricDetector.d_s_aggregationOp}}</div>
+                        <div *ngIf="editDetector" class="col text-start input-group">
+                            <div class="input-group-append">
+                                <!--<input type="number" min="0" [(ngModel)]="metricDetector.d_s_aggregationOp" (change)="detectorUpdate = true">-->
+                                <button class="btn btn-sm btn-outline-primary py-0" type="button" (click)="updateDetector()">Update</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-2 color">
+                        <div class="col text-start">Vergleichsoperation</div>
+                        <div *ngIf="!editDetector" class="col text-start">{{metricDetector.d_s_comparisonOp}}</div>
+                        <div *ngIf="editDetector" class="col text-start input-group">
+                            <div class="input-group-append">
+                                <!--<input type="number" min="0" [(ngModel)]="metricDetector.d_s_comparisonOp" (change)="detectorUpdate = true">-->
+                                <button class="btn btn-sm btn-outline-primary py-0" type="button" (click)="updateDetector()">Update</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col text-start">Zeitinterval</div>
+                        <div *ngIf="!editDetector" class="col text-start">{{metricDetector.d_s_timeInterval}}</div>
+                        <div *ngIf="editDetector" class="col text-start input-group">
+                            <div class="input-group-append">
+                                
+                                <input type="time" [(ngModel)]="metricDetector.d_s_timeInterval" (change)="detectorUpdate = true">
+                                <button class="btn btn-sm btn-outline-primary py-0" type="button" (click)="updateDetector()">Update</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h1 class="catHeader">Datensatz</h1>
+            <div class="container">
+                <div class="row mb-2 color">
+                    <div class="col text-start">Name</div>
+                    <div class="col text-start">{{metricDetector.t_name}}</div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col text-start">Beschreibung</div>
+                    <div class="col text-start">{{metricDetector.t_description}}</div>
+                </div>
+            </div>
+
+            <div *ngIf="!metricDetector.a_actionID && editDetector">
+                <button *ngIf="!createEMail" (click)="createEMail = true; createWebHook= false;" class="btn btn-outline-primary btn-sm m-2" mat-button>E-Mail erstellen</button>
+                <button *ngIf="!createWebHook" (click)="createWebHook = true; createEMail = false;" class="btn btn-outline-primary btn-sm m-2" mat-button>Web-Hook erstellen</button>
+            </div>
+
+            <app-email-form-for-creating *ngIf="createEMail" [detectorID]="metricDetector.d_detectorID" (reload)="inserted()"></app-email-form-for-creating>
+            <app-web-hook-form-for-creating *ngIf="createWebHook" [detectorID]="metricDetector.d_detectorID" (reload)="inserted()"></app-web-hook-form-for-creating>
+            
+            <div *ngIf="metricDetector.a_actionID">
+                <div class="catHeader">
+                    <h1>Aktion</h1>
+                </div>
+                <div *ngIf="editDetector">
+                    <button (click)="removeAction()" class="actionRemoveButton btn btn-outline-primary btn-sm m-2">Aktion entfernen</button>
+                </div>
+                <div (click)="openDetails()" class="details mb-2">
+                    <i *ngIf="!details" class="bi bi-caret-down-fill">mehr anzeigen</i>   
+                    <i *ngIf="details" class="bi bi-caret-up-fill">weniger anzeigen</i> 
+                </div>
+                <div class="container">
+                    <div class="row mb-2 color">
+                        <div class="col text-start">Typ</div>
+                        <div class="col text-start">{{metricDetector.a_w_url == undefined ? "E-Mail" : "Web-Hook"}}</div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col text-start">Name</div>
+                        <div class="col text-start">{{metricDetector.a_name}}</div>
+                    </div>
+                    <div *ngIf="metricDetector.a_w_url && details">
+                        <div class="row mb-2 color">
+                            <div class="col text-start">URL</div>
+                            <div *ngIf="!editDetector" class="col text-start">{{metricDetector.a_w_url}}</div>
+                            <div *ngIf="editDetector" class="col text-start input-group">
+                                <div class="input-group-append">
+                                    <input type="text" [(ngModel)]="metricDetector.a_w_url" (change)="webHookUpdate = true">
+                                    <button class="btn btn-sm btn-outline-primary py-0" type="button" (click)="updateWebHook()">Update</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col text-start">Zusatzinfo</div>
+                            <div *ngIf="!editDetector" class="col text-start">{{metricDetector.a_w_tool}}</div>
+                            <div *ngIf="editDetector" class="col text-start input-group">
+                                <div class="input-group-append">
+                                    <input type="text" [(ngModel)]="metricDetector.a_w_tool" (change)="webHookUpdate = true">
+                                    <button class="btn btn-sm btn-outline-primary py-0" type="button" (click)="updateWebHook()">Update</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="!metricDetector.a_w_url && details">
+                        <div class="row mb-2 color">
+                            <div class="col text-start">Betreff</div>
+                            <div *ngIf="!editDetector" class="col text-start">{{metricDetector.a_e_subject}}</div>
+                            <div *ngIf="editDetector" class="col text-start input-group">
+                                <div class="input-group-append">
+                                    <input type="text" [(ngModel)]="metricDetector.a_e_subject" (change)="eMailUpdate = true">
+                                    <button class="btn btn-sm btn-outline-primary py-0" type="button" (click)="updateEMail()">Update</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col text-start">Nachricht</div>
+                            <div *ngIf="!editDetector" class="col text-start">{{metricDetector.a_e_content}}</div>
+                            <div *ngIf="editDetector" class="col text-start input-group">
+                                <div class="input-group-append">
+                                    <textarea rows="5" [(ngModel)]="metricDetector.a_e_content" (change)="eMailUpdate = true"></textarea>
+                                    <button class="btn btn-sm btn-outline-primary py-0" type="button" (click)="updateEMail()">Update</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-2 color">
+                            <div class="col text-start">Empfänger</div>
+                            <div *ngIf="!editDetector" class="col text-start">{{metricDetector.a_e_sentTo}}</div>
+                            <div *ngIf="editDetector" class="col text-start input-group">
+                                <div class="input-group-append">
+                                    <input type="email" [(ngModel)]="metricDetector.a_e_sentTo" (change)="eMailUpdate = true">
+                                    <button class="btn btn-sm btn-outline-primary py-0" type="button" (click)="updateEMail()">Update</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </mat-card-content>
+        <mat-card-actions>
+            <button *ngIf="!editDetector" (click)="edit()" class="btn btn-outline-secondary btn-sm" mat-button>Bearbeiten</button>
+            <button *ngIf="editDetector" (click)="edit()" class="btn btn-outline-danger btn-sm" mat-button>Bearbeiten beenden</button>
+        </mat-card-actions>
+    </div>
+    
+    <app-connecting-error *ngIf="connectionError"></app-connecting-error>
+</mat-card>
+

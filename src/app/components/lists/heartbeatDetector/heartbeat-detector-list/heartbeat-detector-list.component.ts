@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AaasService } from 'src/app/shared/aaas.service';
-import { HeartbeatDetector } from 'src/app/shared/models/heartbeat-detector';
 import { forkJoin, finalize, Observable } from 'rxjs';
-import { mapHeartBeatDetector } from 'src/app/components/utils/Mapper'
+import { mapHeartBeatDetector } from 'src/app/components/utils/Mapper';
+import { HeartbeatDetector } from 'src/app/shared/models/heartbeat-detector';
 
 @Component({
   selector: 'app-heartbeat-detector-list',
@@ -68,10 +68,11 @@ export class HeartbeatDetectorListComponent implements OnInit {
         obs.subscribe(
             {
                 next: res => 
-                            {  
+                            {
                                 det.d_name = res.name; 
                                 det.d_timeBetweenChecks = res.timeBetweenChecks;
                                 det.d_lastCheck = res.lastCheck;
+                                det.d_active = res.active;
                             },
                 error: () => this.connectionError = true
             }

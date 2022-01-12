@@ -1,8 +1,8 @@
-.heartbeat-card {
+.detector-card {
     width: 450px;
 }
 
-.heartbeat-card-disabled {
+.detector-card-disabled {
     opacity: 0.5;
     pointer-events: none;
 }

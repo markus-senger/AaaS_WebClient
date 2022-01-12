@@ -1,22 +1,23 @@
 <h1>Web-Hook Aktion</h1>
-<div class="container">
-    <div class="row mb-2 color">
-        <div class="col text-start">Aktion-Name</div>
-        <input [(ngModel)]="name" name="name" class="col text-start" type="text">
-    </div>
-    <div class="row mb-2 color">
-        <div class="col text-start">URL</div>
-        <input [(ngModel)]="url" name="url" class="col text-start" type="text">
-    </div>
-    <div class="row mb-2 color">
-        <div class="col text-start">Zusatzinfo</div>
-        <input [(ngModel)]="tool" name="tool" class="col text-start" type="text">
-    </div>
-</div>
 
-<button [disabled]="name == '' || tool == '' || url == ''" 
+<form [formGroup]="form">
+    <mat-form-field class="m-2">
+        <mat-label>Aktion-Name</mat-label>
+        <input matInput formControlName="name" required>
+    </mat-form-field>
+    <mat-form-field class="m-2"> 
+        <mat-label>URL</mat-label>
+        <input matInput formControlName="url" required>
+    </mat-form-field>
+    <mat-form-field class="m-2">
+        <mat-label>Zusatzinfo</mat-label>
+        <input matInput formControlName="tool" required>
+    </mat-form-field>
+</form>
+
+<button [disabled]="!form.valid" 
     class="btn btn-sm btn-outline-primary py-0" type="button" (click)="submit()">
-    Web-Hookl Aktion dem Detektor zuweisen
+        Web-Hook Aktion dem Detektor zuweisen
 </button>
 
 <app-loading-spinner *ngIf="loading"></app-loading-spinner>

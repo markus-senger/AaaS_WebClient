@@ -1,24 +1,25 @@
 <h1>E-Mail Aktion</h1>
-<form name="data" class="container">
-    <div class="row mb-2 color">
-        <div class="col text-start">Aktion-Name</div>
-        <input [(ngModel)]="name" name="name" class="col text-start" type="text">
-    </div>
-    <div class="row mb-2 color">
-        <div class="col text-start">Betreff</div>
-        <input [(ngModel)]="subject" name="subject" class="col text-start" type="text">
-    </div>
-    <div class="row mb-2 color">
-        <div class="col text-start">Nachricht</div>
-        <textarea [(ngModel)]="message" name="message" class="col text-start" rows="5" type="text"></textarea>
-    </div>
-    <div class="row mb-2 color">
-        <div class="col text-start">Empfänger</div>
-        <input [(ngModel)]="sentTo" name="sentTo" class="col text-start" type="text">
-    </div>
+
+<form [formGroup]="form">
+    <mat-form-field class="m-2">
+        <mat-label>Aktion-Name</mat-label>
+        <input matInput formControlName="name" required>
+    </mat-form-field>
+    <mat-form-field class="m-2"> 
+        <mat-label>Betreff</mat-label>
+        <input matInput formControlName="subject" required>
+    </mat-form-field>
+    <mat-form-field class="m-2">
+        <mat-label>Nachricht</mat-label>
+        <textarea rows="5" matInput formControlName="message" required></textarea>
+    </mat-form-field>
+    <mat-form-field class="m-2">
+        <mat-label>Empfänger</mat-label>
+        <input matInput formControlName="sentTo" required>
+    </mat-form-field>
 </form>
 
-<button [disabled]="name == '' || subject == '' || message == '' || sentTo == ''" 
+<button [disabled]="!form.valid" 
     class="btn btn-sm btn-outline-primary py-0" type="button" (click)="submit()">
         E-Mail Aktion dem Detektor zuweisen
 </button>

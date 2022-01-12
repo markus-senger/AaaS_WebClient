@@ -8,6 +8,7 @@ import { MeasurementListComponent } from '../components/lists/measurement/measur
 import { TimeIntervalListComponent } from '../components/lists/timeInterval/time-interval-list/time-interval-list.component';
 import { ClientInstanceListComponent } from '../components/lists/client-instance/client-instance-list/client-instance-list.component';
 import { HeartbeatDetectorListComponent } from '../components/lists/heartbeatDetector/heartbeat-detector-list/heartbeat-detector-list.component';
+import { MetricDetectorListComponent } from '../components/lists/metricDetector/metric-detector-list/metric-detector-list.component';
 
 const routes: Routes = [
     {
@@ -21,33 +22,37 @@ const routes: Routes = [
       pathMatch: 'full'
     },
     {
-      path: 'home',
-      component: HomeComponent
+        path: 'home',
+        component: HomeComponent
     },
     {
         path: 'clientInstance',
         component: ClientInstanceListComponent
     },
     {
-     path: 'logMessages',
-     component: LogMessageListComponent
+        path: 'logMessages',
+        component: LogMessageListComponent
     },
     {
-      path: 'counter',
-      component: CounterListComponent
+        path: 'counter',
+        component: CounterListComponent
     },
     {
-      path: 'measurement',
-      component: MeasurementListComponent
+        path: 'measurement',
+        component: MeasurementListComponent
     },
     {
-      path: 'timeInterval',
-      component: TimeIntervalListComponent
+        path: 'timeInterval',
+        component: TimeIntervalListComponent
     },
     {
         path: 'heartBeatDetector',
         component: HeartbeatDetectorListComponent
-      }
+    },
+    {
+        path: 'metricDetector',
+        component: MetricDetectorListComponent
+    }
 ];
 
 @NgModule({

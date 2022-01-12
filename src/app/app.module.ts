@@ -30,6 +30,8 @@ import { HeartbeatDetectorItemComponent } from './components/lists/heartbeatDete
 import { HeartbeatDetectorFilterComponent } from './components/lists/heartbeatDetector/heartbeat-detector-filter/heartbeat-detector-filter.component';
 import { EMailFormForCreatingComponent } from './components/actionForms/email-form-for-creating/email-form-for-creating.component';
 import { WebHookFormForCreatingComponent } from './components/actionForms/web-hook-form-for-creating/web-hook-form-for-creating.component';
+import { MetricDetectorListComponent } from './components/lists/metricDetector/metric-detector-list/metric-detector-list.component';
+import { MetricDetectorItemComponent } from './components/lists/metricDetector/metric-detector-item/metric-detector-item.component';
 
 
 @NgModule({
@@ -52,7 +54,9 @@ import { WebHookFormForCreatingComponent } from './components/actionForms/web-ho
     HeartbeatDetectorItemComponent,
     HeartbeatDetectorFilterComponent,
     EMailFormForCreatingComponent,
-    WebHookFormForCreatingComponent
+    WebHookFormForCreatingComponent,
+    MetricDetectorListComponent,
+    MetricDetectorItemComponent
   ],
   imports: [
     AppRoutingModule,

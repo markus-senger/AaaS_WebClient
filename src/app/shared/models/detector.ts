@@ -4,6 +4,7 @@ export class Detector {
         public dataID?: string,
         public name?: string,
         public timeBetweenChecks?: string,
-        public lastCheck?: string
+        public lastCheck?: string,
+        public active?: boolean,
     ) {}
 }

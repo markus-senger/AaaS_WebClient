@@ -1,6 +1,8 @@
-export class HeartbeatDetectorUpdate {
+export class MinMaxDetectorUpdate {
     constructor(
-        public maxMissedBeats?: string,
+        public min?: string,
+        public max?: string,
+        public threshold?: string,
         public name?: string,
         public timeBetweenChecks?: string,
         public active?: boolean

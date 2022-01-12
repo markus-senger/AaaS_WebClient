@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { AaasService } from 'src/app/shared/aaas.service';
 import { EMailInsert } from 'src/app/shared/models/e-mail-insert';
 import { finalize } from 'rxjs';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-email-form-for-creating',
@@ -16,20 +17,25 @@ export class EMailFormForCreatingComponent {
     loading: boolean = false;
     connectionError: boolean = false;
 
-    name: string = "";
-    subject: string = "";
-    message: string = "";
-    sentTo: string = "";
+    form: FormGroup;
 
-    constructor(private aaasService: AaasService) { }
+    constructor(private aaasService: AaasService, private fb: FormBuilder) {
+        this.form = this.fb.group({
+            name: [ "", [Validators.required]],
+            subject: [ "", [Validators.required]],
+            message: [ "", [Validators.required]],
+            sentTo: [ "", [Validators.required, Validators.email]]
+        });
+    }
 
     submit(): void {
         var insert = new EMailInsert();
-        insert.subject = this.subject;
-        insert.content = this.message;
-        insert.sentTo = this.sentTo;
+        insert.subject = this.form.value.subject;
+        insert.content = this.form.value.message;
+        insert.sentTo = this.form.value.sentTo;
+        insert.name = this.form.value.name;
         insert.detectorID = this.detectorID;
-        insert.name = this.name;
+
         this.aaasService.insertEMail(insert).pipe(finalize(() => this.loading = false)).
             subscribe(
             {

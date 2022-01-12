@@ -1,17 +1,21 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { map, catchError, retry } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { throwError } from 'rxjs';
 import * as moment from 'moment';
 
-import { LogMessage } from './models/log-message';
 import { TelemetryData } from './models/telemetry-data';
+import { Metric } from './models/metric';
+import { LogMessage } from './models/log-message';
 import { ClientInstance } from './models/client-instance';
 import { Detector } from './models/detector';
 import { HeartbeatDetector } from './models/heartbeat-detector';
 import { HeartbeatDetectorUpdate } from './models/heartbeat-detector-update';
+import { MetricDetector } from './models/metric-detector';
+import { SlidingWindowDetectorUpdate } from './models/sliding-window-detector-update';
+import { MinMaxDetectorUpdate } from './models/min-max-detector-update';
 import { Action } from './models/action';
 import { EMail } from './models/e-mail';
 import { EMailUpdate } from './models/e-mail-update';
@@ -62,13 +66,18 @@ export class AaasService {
                 }).pipe(catchError(this.errorHandler));
     }
 
-    getLogMessageByDataIDAndEntryID(dataID?: string, entryID?: string): Observable<LogMessage> {
-        return this.http.get<any>(`${environment.server}/logMessages/${dataID}/${entryID}`)
+    getTelemetryDataByDataID(dataID?: string): Observable<TelemetryData> {
+        return this.http.get<any>(`${environment.server}/telemetryData/${dataID}`)
             .pipe(catchError(this.errorHandler));
     }
 
-    getTelemetryDataByDataID(dataID?: string): Observable<TelemetryData> {
-        return this.http.get<any>(`${environment.server}/telemetryData/${dataID}`)
+    getMetricByDataID(dataID?: string): Observable<Metric> {
+        return this.http.get<any>(`${environment.server}/metrics/byDataId/${dataID}`)
+            .pipe(catchError(this.errorHandler));
+    }
+
+    getLogMessageByDataIDAndEntryID(dataID?: string, entryID?: string): Observable<LogMessage> {
+        return this.http.get<any>(`${environment.server}/logMessages/${dataID}/${entryID}`)
             .pipe(catchError(this.errorHandler));
     }
 
@@ -92,6 +101,30 @@ export class AaasService {
             .pipe(catchError(this.errorHandler));
     }
 
+    deleteHeartbeatDetector(id?: string): Observable<HeartbeatDetector> {
+        return this.http.delete<any>(`${environment.server}/heartbeatDetectors/${id}`);
+    }
+
+    getAllMinMaxDetectors(): Observable<Array<MetricDetector>> {
+        return this.http.get<any>(`${environment.server}/minMaxDetectors`)
+            .pipe(catchError(this.errorHandler));
+    }
+
+    updateMinMaxDetector(id?: string, mm?: MinMaxDetectorUpdate): Observable<MetricDetector> {
+        return this.http.put<any>(`${environment.server}/minMaxDetectors/${id}`, mm)
+            .pipe(catchError(this.errorHandler));
+    }
+
+    getAllSlidingWindowDetectors(): Observable<Array<MetricDetector>> {
+        return this.http.get<any>(`${environment.server}/slidingWindowDetectors`)
+            .pipe(catchError(this.errorHandler));
+    }
+
+    updateSlidingWindowDetector(id?: string, sw?: SlidingWindowDetectorUpdate): Observable<MetricDetector> {
+        return this.http.put<any>(`${environment.server}/slidingWindowDetectors/${id}`, sw)
+            .pipe(catchError(this.errorHandler));
+    }
+
     getDetectorByID(id?: string): Observable<Detector> { 
         return this.http.get<any>(`${environment.server}/detectors/${id}`)
             .pipe(catchError(this.errorHandler));
@@ -112,8 +145,9 @@ export class AaasService {
             .pipe(catchError(this.errorHandler));
     }
 
-    deleteEMail(id?: string): Observable<EMail> {
-        return this.http.delete<any>(`${environment.server}/eMails/${id}`);
+    deleteEMail(id?: string): Observable<any> {
+        return this.http.delete(`${environment.server}/eMails/${id}`, {"responseType": 'text'})
+            .pipe(catchError(this.errorHandler));
     }
 
     insertEMail(em?: EMailInsert): Observable<EMail> {
@@ -136,7 +170,8 @@ export class AaasService {
             .pipe(catchError(this.errorHandler));
     }
 
-    deleteWebHook(id?: string): Observable<WebHook> {
-        return this.http.delete<any>(`${environment.server}/webHooks/${id}`);
+    deleteWebHook(id?: string): Observable<string> {
+        return this.http.delete(`${environment.server}/webHooks/${id}`, {"responseType": 'text'})
+            .pipe(catchError(this.errorHandler));
     }
 }

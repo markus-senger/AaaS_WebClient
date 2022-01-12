@@ -14,11 +14,7 @@ import { EMailUpdate } from 'src/app/shared/models/e-mail-update';
 export class HeartbeatDetectorItemComponent {
 
     @Input() heartbeatDetector: HeartbeatDetector = new HeartbeatDetector();
-    @Input() heartbeatDetectorOnline: boolean = true;
     @Output() reload = new EventEmitter();
-    @Output() detectorOffline = new EventEmitter();
-
-    active: boolean;
 
     details: boolean = false;
     editDetector: boolean = false;
@@ -32,18 +28,15 @@ export class HeartbeatDetectorItemComponent {
     eMailUpdate: boolean = false;
     webHookUpdate: boolean = false;
 
-    constructor(private aaasService: AaasService) {
-        this.active = this.heartbeatDetectorOnline;
-    }
+    constructor(private aaasService: AaasService) { }
 
     disableEnableDetector(): void {
-        this.active = this.active == true ? false : true;
         this.details = false;
         this.editDetector = false;
 
-        if(!this.active) {
-            this.detectorOffline.emit(this.heartbeatDetector.d_detectorID);
-        }
+        this.heartbeatDetector.d_active = this.heartbeatDetector.d_active == true ? false : true;
+        this.detectorUpdate = true;
+        this.updateDetector();
     }
 
     openDetails(): void {
@@ -68,6 +61,7 @@ export class HeartbeatDetectorItemComponent {
             this.aaasService.deleteEMail(this.heartbeatDetector.a_actionID).
                 subscribe(
                 {
+                    next: () => this.reload.emit("update"),
                     error: () => this.connectionError = true
                 });
         }
@@ -75,10 +69,10 @@ export class HeartbeatDetectorItemComponent {
             this.aaasService.deleteWebHook(this.heartbeatDetector.a_actionID).
                 subscribe(
                 {
+                    next: () => this.reload.emit("update"),
                     error: () => this.connectionError = true
                 });
         }
-        this.reload.emit("update");
     }
 
     updateDetector(): void {
@@ -88,6 +82,7 @@ export class HeartbeatDetectorItemComponent {
             update.maxMissedBeats = this.heartbeatDetector.d_maxMissedBeats;
             update.name = this.heartbeatDetector.d_name;
             update.timeBetweenChecks = this.heartbeatDetector.d_timeBetweenChecks;
+            update.active = this.heartbeatDetector.d_active;
 
             this.aaasService.updateHeartbeatDetector(this.heartbeatDetector.d_detectorID, update)
                 .pipe(finalize(() => this.loading = false)).

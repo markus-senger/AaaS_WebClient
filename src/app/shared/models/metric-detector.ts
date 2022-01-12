@@ -1,17 +1,21 @@
-export class HeartbeatDetector {
+export class MetricDetector {
     constructor(
         public d_detectorID?: string,
-        public d_maxMissedBeats?: string,
+        public d_m_min?: string,
+        public d_m_max?: string,
+        public d_m_threshold?: string,
+        public d_s_timeInterval?: string,
+        public d_s_aggregationOp?: string,
+        public d_s_comparisonOp?: string,
+        public d_s_threshold?: string,
         public d_name?: string,
         public d_timeBetweenChecks?: string,
         public d_lastCheck?: string,
         public d_active?: boolean,
 
-        public c_clientID?: string,
-        public c_appKey?: string,
-        public c_description?: string,
-        public c_state?: string,
-        public c_lastHeartbeat?: string,
+        public t_dataID?: string,
+        public t_name?: string,
+        public t_description?: string,
 
         public a_actionID?: string,
         public a_name?: string,

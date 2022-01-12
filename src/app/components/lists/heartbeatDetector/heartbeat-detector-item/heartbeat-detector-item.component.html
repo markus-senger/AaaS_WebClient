@@ -1,10 +1,10 @@
 <mat-card class="heartbeat-card">
     <div (click)="disableEnableDetector()" class="disableEnableButton">
         <i class="mx-2 bi bi-power"></i>
-        <p *ngIf="!active" class="text-warning">offline</p>
-        <p *ngIf="active" class="text-success">online</p>
+        <p *ngIf="!heartbeatDetector.d_active" class="markDisabled text-warning">offline</p>
+        <p *ngIf="heartbeatDetector.d_active" class="markDisabled text-success">online</p>
     </div>
-    <div [ngClass]="{'heartbeat-card-disabled': !active}" *ngIf="!connectionError">
+    <div [ngClass]="{'heartbeat-card-disabled': !heartbeatDetector.d_active}" *ngIf="!connectionError">
         <div class="header">
             <mat-card-title>Herzschlag-Detektor</mat-card-title>
             <mat-card-subtitle *ngIf="!editDetector">{{heartbeatDetector.d_name}}</mat-card-subtitle>
@@ -54,6 +54,10 @@
                     <div class="col text-start" [ngClass]="{'text-warning': heartbeatDetector.c_state == 'LOGGED_OUT'}">
                         {{heartbeatDetector.c_state == "LOGGED_OUT" ? "abgemeldet" : "angemeldet"}}
                     </div>
+                </div>
+                <div class="row mb-2 color">
+                    <div class="col text-start">Letzter Herzschlag</div>
+                    <div class="col text-start">{{heartbeatDetector.c_lastHeartbeat | date:'dd. MMMM y | HH:mm:ss'}}</div>
                 </div>
             </div>
 
