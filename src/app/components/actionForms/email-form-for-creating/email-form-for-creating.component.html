@@ -1,7 +1,8 @@
 <h1>E-Mail Aktion</h1>
 
+<p *ngIf="inputName != ''">Aktion-Name: {{inputName}}</p>
 <form [formGroup]="form">
-    <mat-form-field class="m-2">
+    <mat-form-field *ngIf="inputName == ''" class="m-2">
         <mat-label>Aktion-Name</mat-label>
         <input matInput formControlName="name" required>
     </mat-form-field>
@@ -21,7 +22,7 @@
 
 <button [disabled]="!form.valid" 
     class="btn btn-sm btn-outline-primary py-0" type="button" (click)="submit()">
-        E-Mail Aktion dem Detektor zuweisen
+        {{inputName == '' ? "E-Mail Aktion dem Detektor zuweisen" : "Update E-Mail Aktion"}}
 </button>
 
 <app-loading-spinner *ngIf="loading"></app-loading-spinner>

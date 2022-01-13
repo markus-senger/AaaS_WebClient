@@ -1,7 +1,8 @@
 <h1>Web-Hook Aktion</h1>
 
+<p *ngIf="inputName != ''">Aktion-Name: {{inputName}}</p>
 <form [formGroup]="form">
-    <mat-form-field class="m-2">
+    <mat-form-field *ngIf="inputName == ''" class="m-2">
         <mat-label>Aktion-Name</mat-label>
         <input matInput formControlName="name" required>
     </mat-form-field>
@@ -17,7 +18,7 @@
 
 <button [disabled]="!form.valid" 
     class="btn btn-sm btn-outline-primary py-0" type="button" (click)="submit()">
-        Web-Hook Aktion dem Detektor zuweisen
+        {{inputName == '' ? "Web-Hook Aktion dem Detektor zuweisen" : "Update Web-Hook Aktion"}}
 </button>
 
 <app-loading-spinner *ngIf="loading"></app-loading-spinner>
