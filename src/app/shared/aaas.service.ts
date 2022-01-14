@@ -71,6 +71,11 @@ export class AaasService {
             .pipe(catchError(this.errorHandler));
     }
 
+    getAllMetrics(): Observable<Array<Metric>> {
+        return this.http.get<any>(`${environment.server}/metrics`)
+            .pipe(catchError(this.errorHandler));
+    }
+
     getMetricByDataID(dataID?: string): Observable<Metric> {
         return this.http.get<any>(`${environment.server}/metrics/byDataId/${dataID}`)
             .pipe(catchError(this.errorHandler));

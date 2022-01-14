@@ -10,6 +10,7 @@ import { LogMessage } from 'src/app/shared/models/log-message';
 })
 export class LogMessageListComponent implements OnInit {
 
+    showLogMessages: LogMessage[] = [];
     logMessages: LogMessage[] = [];
     connectionError: boolean = false;
     loading: boolean = false;

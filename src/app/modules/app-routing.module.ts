@@ -3,12 +3,10 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { LogMessageListComponent } from '../components/lists/logMessage/log-message-list/log-message-list.component';
 import { HomeComponent } from '../components/home/home.component';
-import { CounterListComponent } from '../components/lists/counter/counter-list/counter-list.component';
-import { MeasurementListComponent } from '../components/lists/measurement/measurement-list/measurement-list.component';
-import { TimeIntervalListComponent } from '../components/lists/timeInterval/time-interval-list/time-interval-list.component';
 import { ClientInstanceListComponent } from '../components/lists/client-instance/client-instance-list/client-instance-list.component';
 import { HeartbeatDetectorListComponent } from '../components/lists/heartbeatDetector/heartbeat-detector-list/heartbeat-detector-list.component';
 import { MetricDetectorListComponent } from '../components/lists/metricDetector/metric-detector-list/metric-detector-list.component';
+import { MetricListComponent } from '../components/lists/metric/metric-list/metric-list.component';
 
 const routes: Routes = [
     {
@@ -34,16 +32,8 @@ const routes: Routes = [
         component: LogMessageListComponent
     },
     {
-        path: 'counter',
-        component: CounterListComponent
-    },
-    {
-        path: 'measurement',
-        component: MeasurementListComponent
-    },
-    {
-        path: 'timeInterval',
-        component: TimeIntervalListComponent
+        path: 'metric',
+        component: MetricListComponent
     },
     {
         path: 'heartBeatDetector',

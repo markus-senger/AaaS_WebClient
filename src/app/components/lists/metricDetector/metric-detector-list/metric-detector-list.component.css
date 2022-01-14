@@ -11,7 +11,7 @@
 }
 
 .newCard {
-    margin: 10px 20px 10px 20px;
+    margin: 0px 20px 10px 20px;
     text-align: center;
     padding: 0;
 }
@@ -24,12 +24,12 @@
 .newCard a {
     width: 100%;
     margin: 0;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
 .newCard .bi-plus-circle {
-    font-size: 30px;
+    font-size: 20px;
 }
 
 .loading {

@@ -13,6 +13,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 export class EMailFormForCreatingComponent implements OnInit {
 
     @Input() detectorID?: string = "";
+    @Input() actionID?: string = "";
     @Input() inputName?: string = "";
     @Input() inputSubject?: string = "";
     @Input() inputMessage?: string = "";
@@ -60,7 +61,7 @@ export class EMailFormForCreatingComponent implements OnInit {
             update.sentTo = this.form.value.sentTo;
             update.subject = this.form.value.subject;
 
-            this.aaasService.updateEMail(this.detectorID, update)
+            this.aaasService.updateEMail(this.actionID, update)
                 .pipe(finalize(() => this.loading = false)).
                     subscribe(
                     {

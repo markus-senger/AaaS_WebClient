@@ -94,7 +94,7 @@
                         <div *ngIf="!editDetector" class="col text-start">{{metricDetector.d_s_comparisonOp}}</div>
                         <div *ngIf="editDetector" class="col text-start input-group">
                             <div class="input-group-append">
-                                <select  [(ngModel)]="metricDetector.d_s_comparisonOp" (change)="detectorUpdate = true">
+                                <select [(ngModel)]="metricDetector.d_s_comparisonOp" (change)="detectorUpdate = true">
                                     <option value="GREATER_THAN">GREATER_THAN</option>
                                     <option value="LESS_THAN">LESS_THAN</option>
                                 </select>
@@ -103,7 +103,7 @@
                         </div>
                     </div>
                     <div class="row mb-2">
-                        <div class="col text-start">Zeitinterval</div>
+                        <div class="col text-start">Zeitraum</div>
                         <div *ngIf="!editDetector" class="col text-start">{{metricDetector.d_s_timeInterval}}</div>
                         <div *ngIf="editDetector" class="col text-start input-group">
                             <div class="input-group-append">
@@ -145,6 +145,7 @@
                 </div>
                 <app-email-form-for-creating *ngIf="editDetector && metricDetector.a_e_sentTo" 
                                         [detectorID]="metricDetector.d_detectorID" 
+                                        [actionID]="metricDetector.a_actionID"
                                         [inputMessage]="metricDetector.a_e_content"
                                         [inputName]="metricDetector.a_name"
                                         [inputSentTo]="metricDetector.a_e_sentTo"
@@ -154,6 +155,7 @@
 
                 <app-web-hook-form-for-creating *ngIf="editDetector && !metricDetector.a_e_sentTo" 
                                         [detectorID]="metricDetector.d_detectorID" 
+                                        [actionID]="metricDetector.a_actionID"
                                         [inputTool]="metricDetector.a_w_tool"
                                         [inputName]="metricDetector.a_name"
                                         [inputURL]="metricDetector.a_w_url"

@@ -27,7 +27,7 @@ mat-sidenav {
     width: 350px;
 }
 
-@media only screen and (max-width: 900px) {
+@media only screen and (max-width: 900px), screen and (max-height: 660px) {
     mat-sidenav {
        width: 250px;
        margin-top: 50px;

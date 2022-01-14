@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CounterListComponent } from './counter-list.component';
+import { MetricListComponent } from './metric-list.component';
 
-describe('CounterListComponent', () => {
-  let component: CounterListComponent;
-  let fixture: ComponentFixture<CounterListComponent>;
+describe('MetricListComponent', () => {
+  let component: MetricListComponent;
+  let fixture: ComponentFixture<MetricListComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CounterListComponent ]
+      declarations: [ MetricListComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CounterListComponent);
+    fixture = TestBed.createComponent(MetricListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

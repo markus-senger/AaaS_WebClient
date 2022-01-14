@@ -79,6 +79,7 @@
                 </div>
                 <app-email-form-for-creating *ngIf="editDetector && heartbeatDetector.a_e_sentTo" 
                                         [detectorID]="heartbeatDetector.d_detectorID" 
+                                        [actionID]="heartbeatDetector.a_actionID"
                                         [inputMessage]="heartbeatDetector.a_e_content"
                                         [inputName]="heartbeatDetector.a_name"
                                         [inputSentTo]="heartbeatDetector.a_e_sentTo"
@@ -87,7 +88,8 @@
                 </app-email-form-for-creating>
 
                 <app-web-hook-form-for-creating *ngIf="editDetector && !heartbeatDetector.a_e_sentTo" 
-                                        [detectorID]="heartbeatDetector.d_detectorID" 
+                                        [detectorID]="heartbeatDetector.d_detectorID"
+                                        [actionID]="heartbeatDetector.a_actionID" 
                                         [inputTool]="heartbeatDetector.a_w_tool"
                                         [inputName]="heartbeatDetector.a_name"
                                         [inputURL]="heartbeatDetector.a_w_url"

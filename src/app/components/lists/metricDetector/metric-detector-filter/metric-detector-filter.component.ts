@@ -1,14 +1,13 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
-import { ClientInstance } from 'src/app/shared/models/client-instance';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { AaasService } from 'src/app/shared/aaas.service';
 
 @Component({
-  selector: 'app-heartbeat-detector-filter',
-  templateUrl: './heartbeat-detector-filter.component.html',
-  styleUrls: ['./heartbeat-detector-filter.component.css']
+  selector: 'app-metric-detector-filter',
+  templateUrl: './metric-detector-filter.component.html',
+  styleUrls: ['./metric-detector-filter.component.css']
 })
-export class HeartbeatDetectorFilterComponent {
+export class MetricDetectorFilterComponent {
 
     @Output() applyFilter: EventEmitter<any> = new EventEmitter();
 

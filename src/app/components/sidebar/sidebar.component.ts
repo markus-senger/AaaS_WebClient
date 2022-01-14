@@ -20,7 +20,7 @@ export class SidebarComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    this.observer.observe(['(max-width: 900px)']).subscribe((res) => {
+    this.observer.observe(['(max-width: 900px)', '(max-height: 660px)']).subscribe((res) => {
       if (res.matches) {
         this.sidenav.mode = 'over';
         this.sidenav.disableClose = 'false';

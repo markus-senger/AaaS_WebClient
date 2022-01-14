@@ -13,6 +13,7 @@ import { WebHookUpdate } from 'src/app/shared/models/web-hook-update';
 export class WebHookFormForCreatingComponent implements OnInit {
 
     @Input() detectorID?: string = "";
+    @Input() actionID?: string = "";
     @Input() inputName?: string = "";
     @Input() inputURL?: string = "";
     @Input() inputTool?: string = "";
@@ -56,7 +57,7 @@ export class WebHookFormForCreatingComponent implements OnInit {
             update.tool = this.form.value.tool;
             update.url = this.form.value.url;
 
-            this.aaasService.updateWebHook(this.detectorID, update)
+            this.aaasService.updateWebHook(this.actionID, update)
                 .pipe(finalize(() => this.loading = false)).
                     subscribe(
                     {

@@ -11,6 +11,7 @@ import { HeartbeatDetector } from 'src/app/shared/models/heartbeat-detector';
 })
 export class HeartbeatDetectorListComponent implements OnInit {
 
+    showDetectors: HeartbeatDetector[] = [];
     heartBeatDet: HeartbeatDetector[] = [];
     connectionError: boolean = false;
     loading: boolean = false;
@@ -29,37 +30,48 @@ export class HeartbeatDetectorListComponent implements OnInit {
     }
 
     filter(value: any): void {
-        this.getAllHeartbeatDetectors(value);
+        this.loadingFilter = true;
+
+        this.showDetectors = this.heartBeatDet;
+
+        this.applyFilterName(value);
+        this.applyFilterType(value);
+
+        this.loadingFilter = false;
     }
 
-    getAllHeartbeatDetectors(filterValue: any = undefined): void {
-        if(filterValue != undefined) this.loadingFilter = true;
-        else this.loading = true;
-        this.aaasService.getAllHeartbeatDetectors().pipe(finalize(() => { this.loading = false; this.loadingFilter = false; })).
+    applyFilterType(value: any): void {
+        if(value.selectedType != undefined) {
+            this.showDetectors = this.showDetectors.filter(det => det.c_state?.toLowerCase() == value.selectedType.toLowerCase());
+        }
+    }
+
+    applyFilterName(value: any): void {
+        if(value.selectedName != undefined) {
+            this.showDetectors = this.showDetectors.filter(det => det.d_name?.toLowerCase().includes(value.selectedName.toLowerCase()));
+        }
+    }
+
+    getAllHeartbeatDetectors(): void {
+        this.loading = true;
+        this.aaasService.getAllHeartbeatDetectors().pipe(finalize(() => { this.loading = false; })).
             subscribe(
             {
                 next: res => {
                     this.heartBeatDet = mapHeartBeatDetector(res);
-                    this.getClientAndDetectorAndAction(filterValue);
+                    this.getClientAndDetectorAndAction();
+                    this.showDetectors = this.heartBeatDet;
                 }, 
                 error: () => this.connectionError = true
             });
     }
 
-    getClientAndDetectorAndAction(filterValue: any): void {
+    getClientAndDetectorAndAction(): void {
         var cnt = 0;
         for(var entry of this.heartBeatDet) {
-            forkJoin([
-                this.getDetector(entry),
-                this.getClient(entry),
-                this.getAction(entry)
-            ]).subscribe(() => {
-                cnt++;
-                if(filterValue != undefined && cnt == this.heartBeatDet.length) {
-                    this.applyFilterName(filterValue);
-                    this.applyFilterType(filterValue);
-                }
-            });
+            this.getDetector(entry);
+            this.getClient(entry);
+            this.getAction(entry);
         }
     }
 
@@ -142,18 +154,6 @@ export class HeartbeatDetectorListComponent implements OnInit {
                             },
                 error: () => ""
             })
-    }
-
-    applyFilterType(value: any): void {
-        if(value.selectedType != undefined) {
-            this.heartBeatDet = this.heartBeatDet.filter(det => det.c_state?.toLowerCase() == value.selectedType.toLowerCase());
-        }
-    }
-
-    applyFilterName(value: any): void {
-        if(value.selectedName != undefined) {
-            this.heartBeatDet = this.heartBeatDet.filter(det => det.d_name?.toLowerCase().includes(value.selectedName.toLowerCase()));
-        }
     }
 
 }

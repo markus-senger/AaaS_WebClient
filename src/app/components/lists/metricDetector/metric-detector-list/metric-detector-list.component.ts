@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { AaasService } from 'src/app/shared/aaas.service';
-import { forkJoin, finalize, Observable } from 'rxjs';
+import { forkJoin, finalize, Observable, of } from 'rxjs';
 import { MetricDetector } from 'src/app/shared/models/metric-detector';
 import { mapMinMaxDetector, mapSlidingWindowDetector } from 'src/app/components/utils/Mapper';
 import { observeNotification } from 'rxjs/internal/Notification';
+import { MatDialog } from '@angular/material/dialog';
+import { AddDetectorComponent } from 'src/app/components/add-detector/add-detector.component';
 
 @Component({
   selector: 'app-metric-detector-list',
@@ -12,6 +14,7 @@ import { observeNotification } from 'rxjs/internal/Notification';
 })
 export class MetricDetectorListComponent implements OnInit {
 
+    showDetectors: MetricDetector[] = [];
     metricDetectors: MetricDetector[] = [];
     minMaxDet: MetricDetector[] = [];
     slidingWindowDet: MetricDetector[] = [];
@@ -21,7 +24,7 @@ export class MetricDetectorListComponent implements OnInit {
 
     currentPage: any;
 
-    constructor(private aaasService: AaasService) { }
+    constructor(private aaasService: AaasService, public dialog: MatDialog) { }
 
     ngOnInit(): void {
         this.loading = true;
@@ -31,6 +34,7 @@ export class MetricDetectorListComponent implements OnInit {
             this.getAllSlidingWindowDetectors()
         ]).subscribe(() => {
             this.metricDetectors = this.minMaxDet.concat(this.slidingWindowDet).sort((a, b) => Number(b.t_dataID) - Number(a.t_dataID));
+            this.showDetectors = this.metricDetectors;
             this.loading = false;
         });
     }
@@ -42,52 +46,73 @@ export class MetricDetectorListComponent implements OnInit {
     filter(value: any): void {
         this.loadingFilter = true;
 
-        forkJoin([
-            this.getAllMinMaxDetectors(value),
-            this.getAllSlidingWindowDetectors(value)
-        ]).subscribe(() => {
-            this.loadingFilter = false;
-            this.metricDetectors = this.minMaxDet.concat(this.slidingWindowDet).sort((a, b) => Number(b.t_dataID) - Number(a.t_dataID));
-        });
+        this.showDetectors = this.metricDetectors;
+
+        this.applyFilterName(value);
+        this.applyFilterType(value);
+
+        this.loadingFilter = false;
     }
 
-    getAllMinMaxDetectors(filterValue: any = undefined): Observable<any> {
+    applyFilterType(value: any): void {
+        if(value.selectedType != undefined) {
+            if(value.selectedType == "MMD") this.showDetectors = this.showDetectors.filter(det => det.d_m_min != undefined);
+            else if(value.selectedType == "SWD") this.showDetectors = this.showDetectors.filter(det => det.d_s_aggregationOp != undefined);
+        }
+    }
+
+    applyFilterName(value: any): void {
+        if(value.selectedName != undefined) {
+            this.showDetectors = this.metricDetectors.filter(det => det.d_name?.toLowerCase().includes(value.selectedName.toLowerCase()));
+        }
+    }
+
+    getAllMinMaxDetectors(): Observable<any> {
         var obs = this.aaasService.getAllMinMaxDetectors();
             obs.subscribe(
             {
                 next: res => {
                     this.minMaxDet = mapMinMaxDetector(res);
-                    this.getDataAndDetectorAndAction(filterValue, this.minMaxDet);
+                    this.getDataAndDetectorAndAction(this.minMaxDet);
                 }, 
-                error: () => this.connectionError = true
+                error: () => {
+                    this.connectionError = true;
+                    this.loading = false;
+                } 
             });
         return obs;
     }
 
-    getAllSlidingWindowDetectors(filterValue: any = undefined): Observable<any> {
+    getAllSlidingWindowDetectors(): Observable<any> {
         var obs = this.aaasService.getAllSlidingWindowDetectors();
             obs.subscribe(
             {
                 next: res => {
                     this.slidingWindowDet = mapSlidingWindowDetector(res);
-                    this.getDataAndDetectorAndAction(filterValue, this.slidingWindowDet);
+                    this.getDataAndDetectorAndAction(this.slidingWindowDet);
                 }, 
-                error: () => this.connectionError = true
+                error: () => {
+                    this.connectionError = true;
+                    this.loading = false;
+                }
             });
         return obs;
     }
 
-    getDataAndDetectorAndAction(filterValue: any, data: MetricDetector[]): void {
+    getDataAndDetectorAndAction(data: MetricDetector[]): void {
         var cnt = 0;
         for(var entry of data) {
             cnt++;
-            this.getDetector(entry, cnt, data.length, filterValue).subscribe({
-                    error: () => this.connectionError = true
+            this.getDetector(entry, cnt, data.length).subscribe({
+                    error: () => {
+                        this.connectionError = true;
+                        this.loading = false;
+                    }
                 });
         }
     }
 
-    getDetector(det: MetricDetector, cnt: number, dataSize: number, filterValue: any): Observable<any> {
+    getDetector(det: MetricDetector, cnt: number, dataSize: number): Observable<any> {
         var obs = this.aaasService.getDetectorByID(det.d_detectorID);
          obs.subscribe(
             {
@@ -98,17 +123,14 @@ export class MetricDetectorListComponent implements OnInit {
                                 det.d_timeBetweenChecks = res.timeBetweenChecks;
                                 det.d_lastCheck = res.lastCheck;
                                 det.d_active = res.active;
-                                forkJoin([
-                                    this.getTelemetry(det),
-                                    this.getMetric(det),
-                                    this.getAction(det)]).subscribe(() => {
-                                        cnt++;
-                                        if(filterValue != undefined && cnt == dataSize) {
-                                            this.applyFilterName(filterValue);
-                                        }
-                                    })
+                                this.getTelemetry(det),
+                                this.getMetric(det),
+                                this.getAction(det)
                             },
-                error: () => this.connectionError = true
+                error: () => {
+                    this.connectionError = true;
+                    this.loading = false;
+                }
             }
         );
         return obs;
@@ -123,7 +145,10 @@ export class MetricDetectorListComponent implements OnInit {
                                 det.t_dataID = res.dataID; 
                                 det.t_name = res.name;
                             },
-                error: () => this.connectionError = true
+                error: () => {
+                    this.connectionError = true;
+                    this.loading = false;
+                }
             }
         );
         return obs;
@@ -138,7 +163,10 @@ export class MetricDetectorListComponent implements OnInit {
                                 det.t_dataID = res.dataID; 
                                 det.t_description = res.description;
                             },
-                error: () => this.connectionError = true
+                error: () => {
+                    this.connectionError = true;
+                    this.loading = false;
+                }
             }
         );
         return obs;
@@ -192,11 +220,11 @@ export class MetricDetectorListComponent implements OnInit {
             })
     }
 
-
-    applyFilterName(value: any): void {
-        if(value.selectedName != undefined) {
-            this.minMaxDet = this.minMaxDet.filter(det => det.d_name?.toLowerCase().includes(value.selectedName.toLowerCase()));
-        }
+    openDialog() {
+        let dialogRef = this.dialog.open(AddDetectorComponent, { disableClose: true });
+        dialogRef.afterClosed().subscribe(() => {
+            this.ngOnInit();
+        });
     }
 
 }

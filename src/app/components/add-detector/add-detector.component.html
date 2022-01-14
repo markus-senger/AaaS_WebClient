@@ -1,0 +1,105 @@
+<a type="button" (click)="close()"><i class="bi bi-x-lg"></i></a>
+<h1>Neuen Detektor erstellen</h1>
+
+<mat-tab-group mat-align-tabs="center">
+    <mat-tab label="Sliding-Window-Detector"> 
+        <form [formGroup]="slidingWindowDetectorForm" class="my-4 mx-2">
+            <mat-form-field class="m-4">
+                <mat-label>Detektor-Name</mat-label>
+                <input matInput formControlName="name" required>
+            </mat-form-field>
+            <mat-form-field class="m-4"> 
+                <mat-label>Zeit zwischen Überprüfungen</mat-label>
+                <input type="time" step="1" matInput formControlName="timeBetweenChecks" required>
+            </mat-form-field>
+            <mat-form-field class="m-4 autocomplete-item">
+                <input type="text"
+                    placeholder="Datensatz"
+                    [formControl]="data"
+                    matInput
+                    [matAutocomplete]="auto">
+                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                    <mat-option *ngIf="connectionError" id="clientConnectingError">Connecting to server failed...</mat-option>
+                    <mat-option *ngFor="let option of filterMetrics | async" [value]="option">
+                        {{option.description}}
+                    </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+            <mat-form-field class="m-4">
+                <mat-label>Zeitraum</mat-label>
+                <input type="time" step="1" matInput formControlName="timeInterval" required>
+            </mat-form-field>
+            <mat-form-field class="m-4">
+                <mat-label>Operation</mat-label>
+                <mat-select matInput formControlName="aggregationOp" required>
+                    <mat-option value="CURRENT_VALUE">CURRENT_VALUE</mat-option>
+                    <mat-option value="SUM">SUM</mat-option>
+                    <mat-option value="AVG">AVG</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field class="m-4">
+                <mat-label>Vergleichsoperation</mat-label>
+                <mat-select matInput formControlName="comparisonOp" required>
+                    <mat-option value="GREATER_THAN">GREATER_THAN</mat-option>
+                    <mat-option value="LESS_THAN">LESS_THAN</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field class="m-4">
+                <mat-label>Vergleichswert</mat-label>
+                <input type="number" matInput formControlName="threshold" required>
+            </mat-form-field>
+        </form>
+        
+        <div class="center">
+            <button [disabled]="!slidingWindowDetectorForm.valid" 
+                class="btn btn-lg btn-outline-primary" type="button" (click)="submitSlidingWindowDetector()">
+                    Sliding-Window-Detector erstellen
+            </button>
+        </div>
+    </mat-tab>
+
+    <mat-tab label="Min-Max-Detector"> 
+        <form [formGroup]="minMaxDetectorForm" class="my-4 mx-2">
+            <mat-form-field class="m-4">
+                <mat-label>Detektor-Name</mat-label>
+                <input matInput formControlName="name" required>
+            </mat-form-field>
+            <mat-form-field class="m-4"> 
+                <mat-label>Zeit zwischen Überprüfungen</mat-label>
+                <input type="time" step="1" matInput formControlName="timeBetweenChecks" required>
+            </mat-form-field>
+            <mat-form-field class="m-4 autocomplete-item"> 
+                <input type="text"
+                    placeholder="Datensatz"
+                    [formControl]="data"
+                    matInput
+                    [matAutocomplete]="auto">
+                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                    <mat-option *ngIf="connectionError" id="clientConnectingError">Connecting to server failed...</mat-option>
+                    <mat-option *ngFor="let option of filterMetrics | async" [value]="option">
+                        {{option.description}}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+            <mat-form-field class="m-4">
+                <mat-label>Min. Wert</mat-label>
+                <input type="number" matInput formControlName="min" required>
+            </mat-form-field>
+            <mat-form-field class="m-4">
+                <mat-label>Max. Wert</mat-label>
+                <input type="number" matInput formControlName="max" required>
+            </mat-form-field>
+            <mat-form-field class="m-4">
+                <mat-label>Abweichung (+/-)</mat-label>
+                <input type="number" min="0" matInput formControlName="threshold" required>
+            </mat-form-field>
+        </form>
+        
+        <div class="center">
+            <button [disabled]="!minMaxDetectorForm.valid" 
+                class="btn btn-lg btn-outline-primary" type="button" (click)="submitMinMaxDetector()">
+                    Min-Max-Detektor erstellen
+            </button>
+        </div>
+    </mat-tab>
+</mat-tab-group>

@@ -16,9 +16,6 @@ import { LogMessageListComponent } from './components/lists/logMessage/log-messa
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { HomeComponent } from './components/home/home.component';
-import { CounterListComponent } from './components/lists/counter/counter-list/counter-list.component';
-import { MeasurementListComponent } from './components/lists/measurement/measurement-list/measurement-list.component';
-import { TimeIntervalListComponent } from './components/lists/timeInterval/time-interval-list/time-interval-list.component';
 import { LogMessageListItemDetailComponent } from './components/lists/logMessage/log-message-list-item-detail/log-message-list-item-detail.component';
 import { ConnectingErrorComponent } from './components/utils/connecting-error/connecting-error.component';
 import { LogMessageFilterComponent } from './components/lists/logMessage/log-message-filter/log-message-filter.component';
@@ -32,6 +29,9 @@ import { EMailFormForCreatingComponent } from './components/actionForms/email-fo
 import { WebHookFormForCreatingComponent } from './components/actionForms/web-hook-form-for-creating/web-hook-form-for-creating.component';
 import { MetricDetectorListComponent } from './components/lists/metricDetector/metric-detector-list/metric-detector-list.component';
 import { MetricDetectorItemComponent } from './components/lists/metricDetector/metric-detector-item/metric-detector-item.component';
+import { MetricDetectorFilterComponent } from './components/lists/metricDetector/metric-detector-filter/metric-detector-filter.component';
+import { AddDetectorComponent } from './components/add-detector/add-detector.component';
+import { MetricListComponent } from './components/lists/metric/metric-list/metric-list.component';
 
 
 @NgModule({
@@ -41,9 +41,6 @@ import { MetricDetectorItemComponent } from './components/lists/metricDetector/m
     LogMessageListItemComponent,
     SidebarComponent,
     HomeComponent,
-    CounterListComponent,
-    MeasurementListComponent,
-    TimeIntervalListComponent,
     LogMessageListItemDetailComponent,
     ConnectingErrorComponent,
     LogMessageFilterComponent,
@@ -56,7 +53,10 @@ import { MetricDetectorItemComponent } from './components/lists/metricDetector/m
     EMailFormForCreatingComponent,
     WebHookFormForCreatingComponent,
     MetricDetectorListComponent,
-    MetricDetectorItemComponent
+    MetricDetectorItemComponent,
+    MetricDetectorFilterComponent,
+    AddDetectorComponent,
+    MetricListComponent
   ],
   imports: [
     AppRoutingModule,

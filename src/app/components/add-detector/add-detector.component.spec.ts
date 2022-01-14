@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TimeIntervalListComponent } from './time-interval-list.component';
+import { AddDetectorComponent } from './add-detector.component';
 
-describe('TimeIntervalListComponent', () => {
-  let component: TimeIntervalListComponent;
-  let fixture: ComponentFixture<TimeIntervalListComponent>;
+describe('AddDetectorComponent', () => {
+  let component: AddDetectorComponent;
+  let fixture: ComponentFixture<AddDetectorComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TimeIntervalListComponent ]
+      declarations: [ AddDetectorComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TimeIntervalListComponent);
+    fixture = TestBed.createComponent(AddDetectorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

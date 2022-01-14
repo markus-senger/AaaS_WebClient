@@ -12,6 +12,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatTableModule } from '@angular/material/table';
 import { MatCardModule } from '@angular/material/card';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatTabsModule } from '@angular/material/tabs';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 @NgModule({
     exports: [
@@ -26,7 +29,10 @@ import { MatCardModule } from '@angular/material/card';
         MatInputModule,
         MatNativeDateModule,
         MatTableModule,
-        MatCardModule
+        MatCardModule,
+        MatDialogModule,
+        MatTabsModule,
+        ScrollingModule
     ]
 })
   
