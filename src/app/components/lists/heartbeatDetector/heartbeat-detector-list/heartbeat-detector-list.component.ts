@@ -38,6 +38,7 @@ export class HeartbeatDetectorListComponent implements OnInit {
         this.applyFilterType(value);
 
         this.loadingFilter = false;
+        this.currentPage = 1;
     }
 
     applyFilterType(value: any): void {
@@ -67,7 +68,6 @@ export class HeartbeatDetectorListComponent implements OnInit {
     }
 
     getClientAndDetectorAndAction(): void {
-        var cnt = 0;
         for(var entry of this.heartBeatDet) {
             this.getDetector(entry);
             this.getClient(entry);
@@ -75,56 +75,53 @@ export class HeartbeatDetectorListComponent implements OnInit {
         }
     }
 
-    getDetector(det: HeartbeatDetector): Observable<any> {
-        var obs = this.aaasService.getDetectorByID(det.d_detectorID);
-        obs.subscribe(
-            {
-                next: res => 
-                            {
-                                det.d_name = res.name; 
-                                det.d_timeBetweenChecks = res.timeBetweenChecks;
-                                det.d_lastCheck = res.lastCheck;
-                                det.d_active = res.active;
-                            },
-                error: () => this.connectionError = true
-            }
+    getDetector(det: HeartbeatDetector): void {
+        this.aaasService.getDetectorByID(det.d_detectorID)
+            .subscribe(
+                {
+                    next: res => 
+                                {
+                                    det.d_name = res.name; 
+                                    det.d_timeBetweenChecks = res.timeBetweenChecks;
+                                    det.d_lastCheck = res.lastCheck;
+                                    det.d_active = res.active;
+                                },
+                    error: () => this.connectionError = true
+                }
         );
-        return obs;
     }
 
-    getClient(det: HeartbeatDetector): Observable<any> {
-        var obs = this.aaasService.getClientInstanceByAppKeyAndClientID(det.c_appKey, det.c_clientID);
-        obs.subscribe(
-            {
-                next: res => 
-                            {  
-                                det.c_description = res.description; 
-                                det.c_state = res.state;
-                                det.c_lastHeartbeat = res.lastHeartbeat;
-                            },
-                error: () => this.connectionError = true
-            }
+    getClient(det: HeartbeatDetector): void {
+        this.aaasService.getClientInstanceByAppKeyAndClientID(det.c_appKey, det.c_clientID)
+            .subscribe(
+                {
+                    next: res => 
+                                {  
+                                    det.c_description = res.description; 
+                                    det.c_state = res.state;
+                                    det.c_lastHeartbeat = res.lastHeartbeat;
+                                },
+                    error: () => this.connectionError = true
+                }
         );
-        return obs;
     }
 
-    getAction(det: HeartbeatDetector): Observable<any> {
-        var obs = this.aaasService.getActionByDetectorID(det.d_detectorID);
-        obs.subscribe(
-            {
-                next: res => 
-                            { 
-                                if(res != null) {
-                                    det.a_actionID = res.actionID; 
-                                    det.a_name = res.name;
-                                    this.getEMail(det);
-                                    this.getWebHook(det);
-                                }
-                            },
-                error: () => ""
-            }
+    getAction(det: HeartbeatDetector): void {
+        this.aaasService.getActionByDetectorID(det.d_detectorID)
+            .subscribe(
+                {
+                    next: res => 
+                                { 
+                                    if(res != null) {
+                                        det.a_actionID = res.actionID; 
+                                        det.a_name = res.name;
+                                        this.getEMail(det);
+                                        this.getWebHook(det);
+                                    }
+                                },
+                    error: () => ""
+                }
         );
-        return obs;
     }
 
     getEMail(det: HeartbeatDetector): void {

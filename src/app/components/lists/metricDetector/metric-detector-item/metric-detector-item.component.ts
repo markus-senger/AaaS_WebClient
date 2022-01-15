@@ -7,6 +7,9 @@ import { WebHookUpdate } from 'src/app/shared/models/web-hook-update';
 import { EMailUpdate } from 'src/app/shared/models/e-mail-update';
 import { SlidingWindowDetectorUpdate } from 'src/app/shared/models/sliding-window-detector-update';
 import { MinMaxDetectorUpdate } from 'src/app/shared/models/min-max-detector-update';
+import { MatDialog } from '@angular/material/dialog';
+import { RemoveDetectorComponent } from 'src/app/components/remove-detector/remove-detector.component';
+import { LoadingDisplayComponent } from 'src/app/components/loading-display/loading-display.component';
 
 @Component({
   selector: 'app-metric-detector-item',
@@ -30,7 +33,7 @@ export class MetricDetectorItemComponent {
     eMailUpdate: boolean = false;
     webHookUpdate: boolean = false;
 
-    constructor(private aaasService: AaasService) { }
+    constructor(private aaasService: AaasService, public dialog: MatDialog) { }
 
     disableEnableDetector(): void {
         this.details = false;
@@ -48,14 +51,9 @@ export class MetricDetectorItemComponent {
     edit(): void {
         this.editDetector = this.editDetector == false ? true : false;
         if(!this.editDetector) {
-            this.reload.emit("update");
             this.createEMail = false;
             this.createWebHook = false;
         }
-    }
-
-    inserted(): void {
-        this.reload.emit("update");
     }
 
     removeAction(): void {
@@ -63,7 +61,7 @@ export class MetricDetectorItemComponent {
             this.aaasService.deleteEMail(this.metricDetector.a_actionID).
                 subscribe(
                 {
-                    next: () => this.reload.emit("update"),
+                    next: () => this.refresh(),
                     error: () => this.connectionError = true
                 });
         }
@@ -71,7 +69,7 @@ export class MetricDetectorItemComponent {
             this.aaasService.deleteWebHook(this.metricDetector.a_actionID).
                 subscribe(
                 {
-                    next: () => this.reload.emit("update"),
+                    next: () => this.refresh(),
                     error: () => this.connectionError = true
                 });
         }
@@ -94,6 +92,7 @@ export class MetricDetectorItemComponent {
                     .pipe(finalize(() => this.loading = false)).
                         subscribe(
                         {
+                            next: () => this.refresh(),
                             error: () => this.connectionError = true
                         });
             }
@@ -110,6 +109,7 @@ export class MetricDetectorItemComponent {
                     .pipe(finalize(() => this.loading = false)).
                         subscribe(
                         {
+                            next: () => this.refresh(),
                             error: () => this.connectionError = true
                         });
             }
@@ -117,40 +117,67 @@ export class MetricDetectorItemComponent {
         }
     }
 
-    updateWebHook(): void {
-        if(this.webHookUpdate) {
-            this.loading = true;
-            var update = new WebHookUpdate();
-            update.tool = this.metricDetector.a_w_tool;
-            update.url = this.metricDetector.a_w_url;
+    removeDetectorAndAction(): void {
+        let dialogRef = this.dialog.open(RemoveDetectorComponent, {
+            data: {
+                message: 'Detektor wirklich löschen?',
+                buttonText: {
+                    ok: 'Löschen',
+                    cancel: 'Abbrechen'
+                }
+            }
+        });
+        dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+            if(confirmed) {
+                this.removeDetectorAfterAction();
+            }
+        });
+    }
 
-            this.aaasService.updateWebHook(this.metricDetector.a_actionID, update)
-                .pipe(finalize(() => this.loading = false)).
-                    subscribe(
-                    {
-                        error: () => this.connectionError = true
-                    });
-            this.webHookUpdate = false;
+    removeDetectorAfterAction(): void {
+        if(this.metricDetector.a_w_url != undefined) {
+            this.aaasService.deleteWebHook(this.metricDetector.a_actionID).
+                subscribe(
+                {
+                    next: () => this.removeDetector(),
+                    error: () => this.connectionError = true
+                });
+        }
+        else if(this.metricDetector.a_e_sentTo != undefined) {
+            this.aaasService.deleteEMail(this.metricDetector.a_actionID).
+                subscribe(
+                {
+                    next: () => this.removeDetector(),
+                    error: () => this.connectionError = true
+                });
+        }
+        else {
+            this.removeDetector()
         }
     }
 
-    updateEMail(): void {
-        if(this.eMailUpdate) {
-            this.loading = true;
-            var update = new EMailUpdate();
-            update.content = this.metricDetector.a_e_content;
-            update.sentTo = this.metricDetector.a_e_sentTo;
-            update.subject = this.metricDetector.a_e_subject;
-
-            this.aaasService.updateEMail(this.metricDetector.d_detectorID, update)
-                .pipe(finalize(() => this.loading = false)).
-                    subscribe(
-                    {
-                        error: () => this.connectionError = true
-                    });
-            this.eMailUpdate = false;
+    removeDetector(): void {
+        if(this.metricDetector.d_m_min != undefined) {
+            this.aaasService.deleteMinMaxDetector(this.metricDetector.d_detectorID).
+                subscribe(
+                {
+                    next: () => this.refresh(),
+                    error: () => this.connectionError = true
+                });
+        }
+        else if(this.metricDetector.d_s_aggregationOp != undefined) {
+            this.aaasService.deleteSlidingWindowDetector(this.metricDetector.d_detectorID).
+                subscribe(
+                {
+                    next: () => this.refresh(),
+                    error: () => this.connectionError = true
+                });
         }
     }
 
-
+    refresh() {
+        this.dialog.open(LoadingDisplayComponent, { disableClose: true, 
+            data: this.reload
+        });
+    }
 }

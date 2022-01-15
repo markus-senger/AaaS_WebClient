@@ -23,6 +23,11 @@ import { EMailInsert } from './models/e-mail-insert';
 import { WebHook } from './models/web-hook';
 import { WebHookUpdate } from './models/web-hook-update';
 import { WebHookInsert } from './models/web-hook-insert';
+import { MinMaxDetectorInsert } from './models/min-max-detector-insert';
+import { SlidingWindowDetectorInsert } from './models/sliding-window-detector-insert';
+import { Counter } from './models/counter';
+import { TimeInterval } from './models/time-interval';
+import { Measurement } from './models/measurement';
 
 
 @Injectable({
@@ -81,6 +86,36 @@ export class AaasService {
             .pipe(catchError(this.errorHandler));
     }
 
+    getCounterByDataIdAndDate(dataID: string, startDate: string, endDate: string): Observable<Array<Counter>> {        
+        return this.http.get<any>(`${environment.server}/counters/allByDataIdAndDate`, {
+                    params: {
+                            DataId: dataID,
+                            StartTime: startDate,
+                            EndTime: endDate
+                        }
+                    }).pipe(catchError(this.errorHandler));
+    }
+
+    getMeasurementByDataIdAndDate(dataID: string, startDate: string, endDate: string): Observable<Array<Measurement>> {        
+        return this.http.get<any>(`${environment.server}/measurements/allByDataIdAndDate`, {
+                    params: {
+                            DataId: dataID,
+                            StartTime: startDate,
+                            EndTime: endDate
+                        }
+                    }).pipe(catchError(this.errorHandler));
+    }
+
+    getTimeIntervalByDataIdAndDate(dataID: string, startDate: string, endDate: string): Observable<Array<TimeInterval>> {        
+        return this.http.get<any>(`${environment.server}/timeInterval/allByDataIdAndDate`, {
+                    params: {
+                            DataId: dataID,
+                            StartTime: startDate,
+                            EndTime: endDate
+                        }
+                    }).pipe(catchError(this.errorHandler));
+    }
+
     getLogMessageByDataIDAndEntryID(dataID?: string, entryID?: string): Observable<LogMessage> {
         return this.http.get<any>(`${environment.server}/logMessages/${dataID}/${entryID}`)
             .pipe(catchError(this.errorHandler));
@@ -120,6 +155,16 @@ export class AaasService {
             .pipe(catchError(this.errorHandler));
     }
 
+    insertMinMaxDetector(mm?: MinMaxDetectorInsert): Observable<MetricDetector> {
+        return this.http.post<any>(`${environment.server}/minMaxDetector`, mm)
+            .pipe(catchError(this.errorHandler));
+    }
+
+    deleteMinMaxDetector(id?: string): Observable<any> {
+        return this.http.delete(`${environment.server}/minMaxDetectors/${id}`, {"responseType": 'text'})
+            .pipe(catchError(this.errorHandler));
+    }
+
     getAllSlidingWindowDetectors(): Observable<Array<MetricDetector>> {
         return this.http.get<any>(`${environment.server}/slidingWindowDetectors`)
             .pipe(catchError(this.errorHandler));
@@ -127,6 +172,16 @@ export class AaasService {
 
     updateSlidingWindowDetector(id?: string, sw?: SlidingWindowDetectorUpdate): Observable<MetricDetector> {
         return this.http.put<any>(`${environment.server}/slidingWindowDetectors/${id}`, sw)
+            .pipe(catchError(this.errorHandler));
+    }
+
+    deleteSlidingWindowDetector(id?: string): Observable<any> {
+        return this.http.delete(`${environment.server}/slidingWindowDetectors/${id}`, {"responseType": 'text'})
+            .pipe(catchError(this.errorHandler));
+    }
+
+    insertSlidingWindowDetector(sw?: SlidingWindowDetectorInsert): Observable<MetricDetector> {
+        return this.http.post<any>(`${environment.server}/slidingWindowDetector`, sw)
             .pipe(catchError(this.errorHandler));
     }
 

@@ -4,6 +4,8 @@ import { WebHookInsert } from 'src/app/shared/models/web-hook-insert';
 import { finalize } from 'rxjs';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { WebHookUpdate } from 'src/app/shared/models/web-hook-update';
+import { MatDialog } from '@angular/material/dialog';
+import { LoadingDisplayComponent } from '../../loading-display/loading-display.component';
 
 @Component({
   selector: 'app-web-hook-form-for-creating',
@@ -12,19 +14,18 @@ import { WebHookUpdate } from 'src/app/shared/models/web-hook-update';
 })
 export class WebHookFormForCreatingComponent implements OnInit {
 
+    @Input() event?: any;
     @Input() detectorID?: string = "";
     @Input() actionID?: string = "";
     @Input() inputName?: string = "";
     @Input() inputURL?: string = "";
     @Input() inputTool?: string = "";
-    @Output() reload = new EventEmitter();
 
-    loading: boolean = false;
     connectionError: boolean = false;
 
     form: FormGroup;
 
-    constructor(private aaasService: AaasService, private fb: FormBuilder) { 
+    constructor(private aaasService: AaasService, private fb: FormBuilder, public dialog: MatDialog) { 
         this.form = this.fb.group({
             name: [ "", [Validators.required]],
             url: [ "", [Validators.required]],
@@ -44,26 +45,31 @@ export class WebHookFormForCreatingComponent implements OnInit {
             insert.name = this.form.value.name;
             insert.detectorID = this.detectorID;
 
-            this.aaasService.insertWebHook(insert).pipe(finalize(() => this.loading = false)).
+            this.aaasService.insertWebHook(insert).
                 subscribe(
                 {
-                    next: () => this.reload.emit("update"),
+                    next: () => this.refresh(),
                     error: () => this.connectionError = true
                 });
         }
         else {
-            this.loading = true;
             var update = new WebHookUpdate();
             update.tool = this.form.value.tool;
             update.url = this.form.value.url;
 
             this.aaasService.updateWebHook(this.actionID, update)
-                .pipe(finalize(() => this.loading = false)).
-                    subscribe(
+                .subscribe(
                     {
+                        next:() => this.refresh(),
                         error: () => this.connectionError = true
                     });
         }
+    }
+
+    refresh() {
+        this.dialog.open(LoadingDisplayComponent, { disableClose: true, 
+            data: this.event
+        });
     }
 
 }

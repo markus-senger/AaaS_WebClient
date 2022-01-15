@@ -66,8 +66,8 @@
                 <button *ngIf="!createWebHook" (click)="createWebHook = true; createEMail = false;" class="btn btn-outline-primary btn-sm m-2" mat-button>Web-Hook erstellen</button>
             </div>
 
-            <app-email-form-for-creating *ngIf="createEMail" [detectorID]="heartbeatDetector.d_detectorID" (reload)="inserted()"></app-email-form-for-creating>
-            <app-web-hook-form-for-creating *ngIf="createWebHook" [detectorID]="heartbeatDetector.d_detectorID" (reload)="inserted()"></app-web-hook-form-for-creating>
+            <app-email-form-for-creating *ngIf="createEMail" [event]="reload" [detectorID]="heartbeatDetector.d_detectorID"></app-email-form-for-creating>
+            <app-web-hook-form-for-creating *ngIf="createWebHook" [event]="reload" [detectorID]="heartbeatDetector.d_detectorID"></app-web-hook-form-for-creating>
             
             <div *ngIf="heartbeatDetector.a_actionID">
                 <div class="catHeader">
@@ -84,7 +84,7 @@
                                         [inputName]="heartbeatDetector.a_name"
                                         [inputSentTo]="heartbeatDetector.a_e_sentTo"
                                         [inputSubject]="heartbeatDetector.a_e_subject"
-                                        (reload)="inserted()">
+                                        [event]="reload">
                 </app-email-form-for-creating>
 
                 <app-web-hook-form-for-creating *ngIf="editDetector && !heartbeatDetector.a_e_sentTo" 
@@ -93,7 +93,7 @@
                                         [inputTool]="heartbeatDetector.a_w_tool"
                                         [inputName]="heartbeatDetector.a_name"
                                         [inputURL]="heartbeatDetector.a_w_url"
-                                        (reload)="inserted()">
+                                        [event]="reload">
                 </app-web-hook-form-for-creating>
                 <div *ngIf="!editDetector">
                     <div (click)="openDetails()" class="details mb-2">

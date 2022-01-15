@@ -9,7 +9,7 @@
 
 <div *ngIf="!connectionError" class="cardsContainer">
     <app-metric-detector-item class="cards" 
-        *ngFor="let detector of showDetectors | paginate: {itemsPerPage: 10, currentPage: currentPage}" 
+        *ngFor="let detector of showDetectors | paginate: {itemsPerPage: 6, currentPage: currentPage}" 
         [metricDetector]="detector" 
         (reload)="ngOnInit()">
     </app-metric-detector-item>

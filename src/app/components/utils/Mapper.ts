@@ -1,5 +1,6 @@
 import { HeartbeatDetector } from "src/app/shared/models/heartbeat-detector";
 import { MetricDetector } from "src/app/shared/models/metric-detector";
+import { MetricFull } from "src/app/shared/models/metric-full";
 
 export function mapHeartBeatDetector(detectorDto: any[]): HeartbeatDetector[] {
     var detector: HeartbeatDetector[] = new Array();
@@ -39,4 +40,15 @@ export function mapSlidingWindowDetector(detectorDto: any[]): MetricDetector[] {
         });
     }
     return detector;
+}
+
+export function mapMetric(metricDto: any[]): MetricFull[] {
+    var metrics: MetricFull[] = new Array();
+    for(var entry of metricDto) {
+        metrics.push({
+            t_dataID: entry.dataID,
+            t_m_description: entry.description
+        });
+    }
+    return metrics;
 }

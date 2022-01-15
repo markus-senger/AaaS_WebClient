@@ -4,6 +4,9 @@
         <p *ngIf="!metricDetector.d_active" class="markDisabled text-warning">offline</p>
         <p *ngIf="metricDetector.d_active" class="markDisabled text-success">online</p>
     </div>
+    <div *ngIf="editDetector" (click)="removeDetectorAndAction()" class="deleteButton">
+        <i class="bi bi-x-lg"></i>
+    </div>
     <div [ngClass]="{'detector-card-disabled': !metricDetector.d_active}" *ngIf="!connectionError">
         <div class="header">
             <mat-card-title *ngIf="metricDetector.d_m_min != undefined">Min-Max-Detektor</mat-card-title>
@@ -133,8 +136,8 @@
                 <button *ngIf="!createWebHook" (click)="createWebHook = true; createEMail = false;" class="btn btn-outline-primary btn-sm m-2" mat-button>Web-Hook erstellen</button>
             </div>
 
-            <app-email-form-for-creating *ngIf="createEMail" [detectorID]="metricDetector.d_detectorID" (reload)="inserted()"></app-email-form-for-creating>
-            <app-web-hook-form-for-creating *ngIf="createWebHook" [detectorID]="metricDetector.d_detectorID" (reload)="inserted()"></app-web-hook-form-for-creating>
+            <app-email-form-for-creating *ngIf="createEMail" [event]="reload" [detectorID]="metricDetector.d_detectorID"></app-email-form-for-creating>
+            <app-web-hook-form-for-creating *ngIf="createWebHook" [event]="reload" [detectorID]="metricDetector.d_detectorID"></app-web-hook-form-for-creating>
 
             <div *ngIf="metricDetector.a_actionID">
                 <div class="catHeader">
@@ -150,7 +153,7 @@
                                         [inputName]="metricDetector.a_name"
                                         [inputSentTo]="metricDetector.a_e_sentTo"
                                         [inputSubject]="metricDetector.a_e_subject"
-                                        (reload)="inserted()">
+                                        [event]="reload">
                 </app-email-form-for-creating>
 
                 <app-web-hook-form-for-creating *ngIf="editDetector && !metricDetector.a_e_sentTo" 
@@ -159,7 +162,7 @@
                                         [inputTool]="metricDetector.a_w_tool"
                                         [inputName]="metricDetector.a_name"
                                         [inputURL]="metricDetector.a_w_url"
-                                        (reload)="inserted()">
+                                        [event]="reload">
                 </app-web-hook-form-for-creating>
                 <div *ngIf="!editDetector">
                     <div (click)="openDetails()" class="details mb-2">

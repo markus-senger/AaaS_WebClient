@@ -8,7 +8,7 @@
 
 <div *ngIf="!connectionError" class="cardsContainer">
     <app-heartbeat-detector-item class="cards" 
-        *ngFor="let detector of showDetectors | paginate: {itemsPerPage: 10, currentPage: currentPage}" 
+        *ngFor="let detector of showDetectors | paginate: {itemsPerPage: 6, currentPage: currentPage}" 
         [heartbeatDetector]="detector" 
         (reload)="ngOnInit()">
     </app-heartbeat-detector-item>

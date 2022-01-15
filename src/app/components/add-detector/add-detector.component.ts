@@ -4,7 +4,10 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Vali
 import { MatDialogRef } from '@angular/material/dialog';
 import { map, Observable, startWith } from 'rxjs';
 import { AaasService } from 'src/app/shared/aaas.service';
+import { DetectorInsert } from 'src/app/shared/models/detector-insert';
 import { Metric } from 'src/app/shared/models/metric';
+import { MinMaxDetectorInsert } from 'src/app/shared/models/min-max-detector-insert';
+import { SlidingWindowDetectorInsert } from 'src/app/shared/models/sliding-window-detector-insert';
 
 @Component({
   selector: 'app-add-detector',
@@ -73,15 +76,44 @@ export class AddDetectorComponent implements OnInit {
     }
 
     submitMinMaxDetector(): void {
-        
-        this.reload.emit("update");
-        this.dialogRef.close();
+        var insert = new MinMaxDetectorInsert();
+        insert.dataID = this.minMaxDetectorForm.value.data.dataID;
+        insert.detectorDto = new DetectorInsert();
+        insert.detectorDto.name = this.minMaxDetectorForm.value.name;
+        insert.detectorDto.timeBetweenChecks = this.minMaxDetectorForm.value.timeBetweenChecks;
+        insert.max = this.minMaxDetectorForm.value.max;
+        insert.min = this.minMaxDetectorForm.value.min;
+        insert.threshold = this.minMaxDetectorForm.value.threshold;
+
+        this.aaasService.insertMinMaxDetector(insert)
+                    .subscribe(
+                    {
+                        next: () => {
+                            this.dialogRef.close(true);
+                        },
+                        error: () => this.connectionError = true
+                    });
     }
 
     submitSlidingWindowDetector(): void {
-        
-        this.reload.emit("update");
-        this.dialogRef.close();
+        var insert = new SlidingWindowDetectorInsert();
+        insert.dataID = this.slidingWindowDetectorForm.value.data.dataID;
+        insert.detectorDto = new DetectorInsert();
+        insert.detectorDto.name = this.slidingWindowDetectorForm.value.name;
+        insert.detectorDto.timeBetweenChecks = this.slidingWindowDetectorForm.value.timeBetweenChecks;
+        insert.aggregationOp = this.slidingWindowDetectorForm.value.aggregationOp;
+        insert.comparisonOp = this.slidingWindowDetectorForm.value.comparisonOp;
+        insert.threshold = this.slidingWindowDetectorForm.value.threshold;
+        insert.timeInterval = this.slidingWindowDetectorForm.value.timeInterval;
+
+        this.aaasService.insertSlidingWindowDetector(insert)
+                    .subscribe(
+                    {
+                        next: () => {
+                            this.dialogRef.close(true);
+                        },
+                        error: () => this.connectionError = true
+                    });
     }
 
     displayFn(m: Metric): string {

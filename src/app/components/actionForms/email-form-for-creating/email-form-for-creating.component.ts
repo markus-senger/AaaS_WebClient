@@ -4,6 +4,8 @@ import { EMailInsert } from 'src/app/shared/models/e-mail-insert';
 import { EMailUpdate} from 'src/app/shared/models/e-mail-update';
 import { finalize } from 'rxjs';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { LoadingDisplayComponent } from '../../loading-display/loading-display.component';
 
 @Component({
   selector: 'app-email-form-for-creating',
@@ -12,20 +14,19 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 export class EMailFormForCreatingComponent implements OnInit {
 
+    @Input() event?: any;
     @Input() detectorID?: string = "";
     @Input() actionID?: string = "";
     @Input() inputName?: string = "";
     @Input() inputSubject?: string = "";
     @Input() inputMessage?: string = "";
     @Input() inputSentTo?: string = "";
-    @Output() reload = new EventEmitter();
 
-    loading: boolean = false;
     connectionError: boolean = false;
 
     form: FormGroup;
 
-    constructor(private aaasService: AaasService, private fb: FormBuilder) {
+    constructor(private aaasService: AaasService, private fb: FormBuilder, public dialog: MatDialog) {
         this.form = this.fb.group({
             name: [ "", [Validators.required]],
             subject: [ "", [Validators.required]],
@@ -47,27 +48,32 @@ export class EMailFormForCreatingComponent implements OnInit {
             insert.name = this.form.value.name;
             insert.detectorID = this.detectorID;
 
-            this.aaasService.insertEMail(insert).pipe(finalize(() => this.loading = false)).
-                subscribe(
-                {
-                    next: () => this.reload.emit("update"),
-                    error: () => this.connectionError = true
-                });
+            this.aaasService.insertEMail(insert)
+                .subscribe(
+                    {
+                        next: () => this.refresh(),
+                        error: () => this.connectionError = true
+                    });
         }
         else {
-            this.loading = true;
             var update = new EMailUpdate();
             update.content = this.form.value.message;
             update.sentTo = this.form.value.sentTo;
             update.subject = this.form.value.subject;
 
             this.aaasService.updateEMail(this.actionID, update)
-                .pipe(finalize(() => this.loading = false)).
-                    subscribe(
+                .subscribe(
                     {
+                        next: () => this.refresh(),
                         error: () => this.connectionError = true
                     });
         }
+    }
+
+    refresh() {
+        this.dialog.open(LoadingDisplayComponent, { disableClose: true, 
+            data: this.event
+        });
     }
 
 }

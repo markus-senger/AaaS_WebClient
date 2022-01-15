@@ -1,1 +1,21 @@
-<p>metric-list works!</p>
+<div class="sticky-top px-2 pt-3 pb-2 bg-light">
+    <app-heartbeat-detector-filter (applyFilter)="filter($event)"></app-heartbeat-detector-filter>
+    <div *ngIf="loadingFilter" class="loadingFilter">
+        <app-loading-spinner></app-loading-spinner>
+    </div>
+    <pagination-controls class="paginationControl" previousLabel="" nextLabel="" [responsive]="true" (pageChange)="pageChanged($event)"></pagination-controls>
+</div>
+
+<mat-selection-list class="px-5" [multiple]="false">
+    <mat-list-option class="markDisabled" (click)="showDiagramm()" *ngFor="let metric of showMetrics | paginate: {itemsPerPage: 10, currentPage: currentPage}" [value]="metric">
+        <div mat-line class="color">{{metric.t_name}}</div>
+        <div mat-line>{{metric.t_m_description}}</div>
+        <div mat-line>Client: {{metric.c_description}}</div>
+    </mat-list-option>
+</mat-selection-list>
+
+<div *ngIf="loading" class="loading">
+    <app-loading-spinner></app-loading-spinner>
+</div>
+
+<app-connecting-error *ngIf="connectionError"></app-connecting-error>

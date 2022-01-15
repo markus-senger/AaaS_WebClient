@@ -5,6 +5,8 @@ import { HeartbeatDetectorUpdate } from 'src/app/shared/models/heartbeat-detecto
 import { finalize } from 'rxjs';
 import { WebHookUpdate } from 'src/app/shared/models/web-hook-update';
 import { EMailUpdate } from 'src/app/shared/models/e-mail-update';
+import { MatDialog } from '@angular/material/dialog';
+import { LoadingDisplayComponent } from 'src/app/components/loading-display/loading-display.component';
 
 @Component({
   selector: 'app-heartbeat-detector-item',
@@ -28,7 +30,7 @@ export class HeartbeatDetectorItemComponent {
     eMailUpdate: boolean = false;
     webHookUpdate: boolean = false;
 
-    constructor(private aaasService: AaasService) { }
+    constructor(private aaasService: AaasService, public dialog: MatDialog) { }
 
     disableEnableDetector(): void {
         this.details = false;
@@ -46,14 +48,9 @@ export class HeartbeatDetectorItemComponent {
     edit(): void {
         this.editDetector = this.editDetector == false ? true : false;
         if(!this.editDetector) {
-            this.reload.emit("update");
             this.createEMail = false;
             this.createWebHook = false;
         }
-    }
-
-    inserted(): void {
-        this.reload.emit("update");
     }
 
     removeAction(): void {
@@ -61,7 +58,7 @@ export class HeartbeatDetectorItemComponent {
             this.aaasService.deleteEMail(this.heartbeatDetector.a_actionID).
                 subscribe(
                 {
-                    next: () => this.reload.emit("update"),
+                    next: () => this.refresh(),
                     error: () => this.connectionError = true
                 });
         }
@@ -69,7 +66,7 @@ export class HeartbeatDetectorItemComponent {
             this.aaasService.deleteWebHook(this.heartbeatDetector.a_actionID).
                 subscribe(
                 {
-                    next: () => this.reload.emit("update"),
+                    next: () => this.refresh(),
                     error: () => this.connectionError = true
                 });
         }
@@ -88,6 +85,7 @@ export class HeartbeatDetectorItemComponent {
                 .pipe(finalize(() => this.loading = false)).
                     subscribe(
                     {
+                        next: () => this.refresh(),
                         error: () => this.connectionError = true
                     });
             this.detectorUpdate = false;
@@ -105,6 +103,7 @@ export class HeartbeatDetectorItemComponent {
                 .pipe(finalize(() => this.loading = false)).
                     subscribe(
                     {
+                        next: () => this.refresh(),
                         error: () => this.connectionError = true
                     });
             this.webHookUpdate = false;
@@ -123,10 +122,17 @@ export class HeartbeatDetectorItemComponent {
                 .pipe(finalize(() => this.loading = false)).
                     subscribe(
                     {
+                        next: () => this.refresh(),
                         error: () => this.connectionError = true
                     });
             this.eMailUpdate = false;
         }
+    }
+
+    refresh() {
+        this.dialog.open(LoadingDisplayComponent, { disableClose: true, 
+            data: this.reload
+        });
     }
 
 }

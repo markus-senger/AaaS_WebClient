@@ -46,6 +46,7 @@ export class LogMessageListComponent implements OnInit {
                                         this.logMessages = res; 
                                         this.applyFilterType(value);
                                         this.applyFilterMessage(value);
+                                        this.currentPage = 1;
                                     },
                         error: () => this.connectionError = true
                     }

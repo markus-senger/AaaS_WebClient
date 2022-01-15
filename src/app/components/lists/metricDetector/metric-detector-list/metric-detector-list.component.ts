@@ -6,6 +6,7 @@ import { mapMinMaxDetector, mapSlidingWindowDetector } from 'src/app/components/
 import { observeNotification } from 'rxjs/internal/Notification';
 import { MatDialog } from '@angular/material/dialog';
 import { AddDetectorComponent } from 'src/app/components/add-detector/add-detector.component';
+import { LoadingDisplayComponent } from 'src/app/components/loading-display/loading-display.component';
 
 @Component({
   selector: 'app-metric-detector-list',
@@ -33,7 +34,7 @@ export class MetricDetectorListComponent implements OnInit {
             this.getAllMinMaxDetectors(),
             this.getAllSlidingWindowDetectors()
         ]).subscribe(() => {
-            this.metricDetectors = this.minMaxDet.concat(this.slidingWindowDet).sort((a, b) => Number(b.t_dataID) - Number(a.t_dataID));
+            this.metricDetectors = this.minMaxDet.concat(this.slidingWindowDet).sort((a, b) => Number(a.d_detectorID) - Number(b.d_detectorID));
             this.showDetectors = this.metricDetectors;
             this.loading = false;
         });
@@ -52,6 +53,7 @@ export class MetricDetectorListComponent implements OnInit {
         this.applyFilterType(value);
 
         this.loadingFilter = false;
+        this.currentPage = 1;
     }
 
     applyFilterType(value: any): void {
@@ -222,6 +224,13 @@ export class MetricDetectorListComponent implements OnInit {
 
     openDialog() {
         let dialogRef = this.dialog.open(AddDetectorComponent, { disableClose: true });
+        dialogRef.afterClosed().subscribe((add: boolean) => {
+            if(add) this.refresh();
+        });
+    }
+
+    refresh() {
+        let dialogRef = this.dialog.open(LoadingDisplayComponent, { disableClose: true });
         dialogRef.afterClosed().subscribe(() => {
             this.ngOnInit();
         });

@@ -1,0 +1,29 @@
+.loading {
+    margin-top: 20vh;
+    font-size: 20px;
+}
+
+.loadingFilter {
+    padding-bottom: 40px;
+}
+
+.color {
+    color: var(--main-color);
+}
+
+.markDisabled {
+    user-select: none;
+}
+
+.paginationControl /deep/ .ngx-pagination {
+    text-align: center;
+    padding: 0px;
+}
+
+.paginationControl /deep/ .ngx-pagination a {
+    text-decoration: none;
+}
+
+.paginationControl /deep/ .ngx-pagination .current {
+    background: var(--main-color);
+}

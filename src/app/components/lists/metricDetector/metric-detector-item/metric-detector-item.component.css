@@ -88,4 +88,10 @@
     padding: 1px 5px 1px 5px;
 }
 
+.deleteButton {
+    color: red;
+    float: right;
+    cursor: pointer;
+}
+
 
