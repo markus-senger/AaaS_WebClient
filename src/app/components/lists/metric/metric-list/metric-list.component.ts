@@ -40,22 +40,27 @@ export class MetricListComponent implements OnInit {
 
         this.showMetrics = this.metrics;
 
-        this.applyFilterName(value);
-        this.applyFilterType(value);
+        this.applyFilterMessage(value);
+        this.applyFilterClient(value);
 
         this.loadingFilter = false;
         this.currentPage = 1;
     }
 
-    applyFilterType(value: any): void {
-        if(value.selectedType != undefined) {
-            //this.showMetrics = this.showMetrics.filter(det => det.c_state?.toLowerCase() == value.selectedType.toLowerCase());
+    applyFilterClient(value: any): void {
+        if(value.selectedClientInstance != undefined) {
+            this.showMetrics = this.showMetrics.filter(m => m.c_clientID == value.selectedClientInstance.clientID);
         }
     }
 
-    applyFilterName(value: any): void {
-        if(value.selectedName != undefined) {
-            //this.showMetrics = this.showMetrics.filter(det => det.d_name?.toLowerCase().includes(value.selectedName.toLowerCase()));
+    applyFilterMessage(value: any): void {
+        if(value.selectedMessage != undefined) {
+            this.showMetrics = this.showMetrics.filter(m => {
+                if(m.t_m_description != undefined)
+                    return m.t_name?.concat(m.t_m_description).toLowerCase().includes(value.selectedMessage.toLowerCase());
+                else 
+                    return m.t_name?.toLowerCase().includes(value.selectedMessage.toLowerCase());
+            });
         }
     }
 

@@ -1,0 +1,30 @@
+form {
+    margin: 0px;
+}
+
+.bi-x {
+    color: red;
+    font-size: 20px;
+    text-align: center;
+}
+
+.openCloseBar {
+    display: flex;
+    color: var(--main-color);
+    font-size: 20px;
+    margin-left: 10px;
+}
+
+.openCloseBar i {
+    margin-right: 20px;
+}
+
+.row {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+#clientConnectingError {
+    background-color: red;
+    color: white;
+}

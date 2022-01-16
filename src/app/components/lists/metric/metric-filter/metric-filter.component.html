@@ -1,0 +1,42 @@
+<form [formGroup]="filterSettings" class="pb-3">
+
+    <div class="openCloseBar">
+        <a (click)="filterToggle()" type="button">
+            <i *ngIf="filterOpen" class="bi bi-caret-up-fill"></i>
+            <i *ngIf="!filterOpen" class="bi bi-caret-down-fill"></i>
+        </a>
+        <p>Filter</p>
+    </div>
+
+    <div *ngIf="filterOpen">
+        <div class="row">
+
+            <mat-form-field color="primary" class="col">
+                <a *ngIf="messageFieldEmpty" type="button" matSuffix 
+                    (click)="$event.stopPropagation(); resetMessageField()">
+                    <i class="bi bi-x"></i>
+                </a>
+                <input matInput placeholder="Text suchen" formControlName="selectedMessage" autocomplete="off" (change)="messageFieldEmpty = 'message'">
+            </mat-form-field>
+
+            <mat-form-field class="col">
+                <mat-label>Client-Instanz</mat-label>
+                <a *ngIf="clientFieldEmpty" type="button" matSuffix 
+                    (click)="$event.stopPropagation(); resetClientField()">
+                    <i class="bi bi-x"></i>
+                </a>
+                <mat-select formControlName="selectedClientInstance" [(value)]="clientFieldEmpty">
+                    <mat-option *ngIf="connectionError" id="clientConnectingError">Connecting to server failed...</mat-option>
+                    <mat-option *ngFor="let client of clientInstances" [value]="client">{{client.description}}</mat-option>
+                </mat-select>
+            </mat-form-field>            
+        
+        </div>
+
+        <button mat-button (click)="submitFilter()" class="row my-2 btn btn-outline-secondary btn-sm justify-content-end">
+            Filter anwenden
+        </button>
+    </div>
+
+</form>
+

@@ -35,6 +35,7 @@ import { MetricListComponent } from './components/lists/metric/metric-list/metri
 import { RemoveDetectorComponent } from './components/remove-detector/remove-detector.component';
 import { LoadingDisplayComponent } from './components/loading-display/loading-display.component';
 import { MetricDetailComponent } from './components/lists/metric/metric-detail/metric-detail.component';
+import { MetricFilterComponent } from './components/lists/metric/metric-filter/metric-filter.component';
 
 
 @NgModule({
@@ -62,7 +63,8 @@ import { MetricDetailComponent } from './components/lists/metric/metric-detail/m
     MetricListComponent,
     RemoveDetectorComponent,
     LoadingDisplayComponent,
-    MetricDetailComponent
+    MetricDetailComponent,
+    MetricFilterComponent
   ],
   imports: [
     AppRoutingModule,

@@ -1,5 +1,5 @@
 <div class="sticky-top px-2 pt-3 pb-2 bg-light">
-    <app-heartbeat-detector-filter (applyFilter)="filter($event)"></app-heartbeat-detector-filter>
+    <app-metric-filter (applyFilter)="filter($event)"></app-metric-filter>
     <div *ngIf="loadingFilter" class="loadingFilter">
         <app-loading-spinner></app-loading-spinner>
     </div>
