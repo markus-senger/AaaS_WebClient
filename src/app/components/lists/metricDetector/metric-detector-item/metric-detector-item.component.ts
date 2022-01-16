@@ -53,6 +53,7 @@ export class MetricDetectorItemComponent {
         if(!this.editDetector) {
             this.createEMail = false;
             this.createWebHook = false;
+            this.refresh();
         }
     }
 

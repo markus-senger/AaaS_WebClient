@@ -1,0 +1,33 @@
+.header {
+    background-color: var(--main-color);
+    color: white;
+}
+
+.header .lastInsert {
+    display: flex;
+}
+
+.header .data {
+    display: flex;
+}
+
+.nav {
+    font-size: 20px;
+    color: var(--main-color);
+}
+
+.nav i {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.diagram {
+    width: 70vw;
+    height: 60vh;
+}
+
+@media only screen and (max-width: 600px), screen and (max-height: 600px) {
+    .header {
+        display: none;
+    }
+}

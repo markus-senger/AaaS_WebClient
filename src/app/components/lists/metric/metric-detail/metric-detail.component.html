@@ -1,1 +1,43 @@
-<p>metric-detail works!</p>
+<div>
+    <div class="header">
+        <div class="data py-2">
+            <p class="px-5">Datenbezeichnung: {{metric.t_name}}</p>
+            <p>Datenbeschreibung: {{metric.t_m_description}}</p>
+        </div>
+        <p class="px-5">Letzte eingefügte Metrik:</p>
+        <div *ngIf="lastCounter != undefined" class="lastInsert pb-2 mb-5">
+            <p class="px-5">State: {{lastCounter.state}}</p>
+            <p>Zeitpunkt: {{lastCounter.timestamp | date:'dd. MMMM y | HH:mm:ss'}}</p>
+        </div>
+        <div *ngIf="lastMeasurement != undefined" class="lastInsert pb-2 mb-5">
+            <p class="px-5">State: {{lastMeasurement.value}}</p>
+            <p>Zeitpunkt: {{lastMeasurement.timestamp | date:'dd. MMMM y | HH:mm:ss'}}</p>
+        </div>
+        <div *ngIf="lastTimeInterval != undefined" class="lastInsert pb-2 mb-5">
+            <p class="px-5">State: {{lastTimeInterval.value}}</p>
+            <p>Start-Zeitpunkt: {{lastTimeInterval.start | date:'dd. MMMM y | HH:mm:ss'}}</p>
+            <p class="px-5">End-Zeitpunkt: {{lastTimeInterval.end | date:'dd. MMMM y | HH:mm:ss'}}</p>
+        </div>
+    </div>
+    <div class="nav">
+        <a type="button" (click)="strongLeftDate()"><i class="bi bi-chevron-double-left"></i></a>
+        <a type="button" (click)="leftDate()"><i class="bi bi-chevron-left"></i></a>
+        <a type="button" (click)="rightDate()"><i class="bi bi-chevron-right"></i></a>
+        <a type="button" (click)="strongRightDate()"><i class="bi bi-chevron-double-right"></i></a>
+    </div>
+    <div class="diagram">
+        <canvas baseChart
+                [datasets]="chartData"
+                [labels]="chartLabels"
+                [options]="chartOptions"
+                [legend]="chartLegend"
+                [type]="chartType">
+        </canvas>
+    </div>
+
+    <div *ngIf="loading" class="loading">
+        <app-loading-spinner></app-loading-spinner>
+    </div>
+
+    <app-connecting-error *ngIf="connectionError"></app-connecting-error>
+</div>

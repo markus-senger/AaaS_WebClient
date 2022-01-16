@@ -6,8 +6,8 @@
     <pagination-controls class="paginationControl" previousLabel="" nextLabel="" [responsive]="true" (pageChange)="pageChanged($event)"></pagination-controls>
 </div>
 
-<mat-selection-list class="px-5" [multiple]="false">
-    <mat-list-option class="markDisabled" (click)="showDiagramm()" *ngFor="let metric of showMetrics | paginate: {itemsPerPage: 10, currentPage: currentPage}" [value]="metric">
+<mat-selection-list #metric class="px-5" [multiple]="false" (selectionChange)="showDiagramm($event)">
+    <mat-list-option class="markDisabled" *ngFor="let metric of showMetrics | paginate: {itemsPerPage: 10, currentPage: currentPage}" [value]="metric">
         <div mat-line class="color">{{metric.t_name}}</div>
         <div mat-line>{{metric.t_m_description}}</div>
         <div mat-line>Client: {{metric.c_description}}</div>

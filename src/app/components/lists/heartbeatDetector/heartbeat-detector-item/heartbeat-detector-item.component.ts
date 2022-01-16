@@ -50,6 +50,7 @@ export class HeartbeatDetectorItemComponent {
         if(!this.editDetector) {
             this.createEMail = false;
             this.createWebHook = false;
+            this.refresh();
         }
     }
 

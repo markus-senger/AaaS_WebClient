@@ -96,6 +96,21 @@ export class AaasService {
                     }).pipe(catchError(this.errorHandler));
     }
 
+    getLastInsertedCounter(dataID?: string): Observable<Counter> {
+        return this.http.get<any>(`${environment.server}/counter/lastInsert/${dataID}`)
+            .pipe(catchError(this.errorHandler));
+    }
+
+    getCountersByDataIDAndDate(dataID: string, startDate: string, endDate: string): Observable<Array<Counter>> {
+        return this.http.get<any>(`${environment.server}/counters/allByDataIdAndDate`, {
+                    params: {
+                            DataId: dataID,
+                            StartTime: startDate,
+                            EndTime: endDate
+                        }
+                    }).pipe(catchError(this.errorHandler));
+    }
+
     getMeasurementByDataIdAndDate(dataID: string, startDate: string, endDate: string): Observable<Array<Measurement>> {        
         return this.http.get<any>(`${environment.server}/measurements/allByDataIdAndDate`, {
                     params: {
@@ -106,8 +121,38 @@ export class AaasService {
                     }).pipe(catchError(this.errorHandler));
     }
 
+    getLastInsertedMeasurement(dataID?: string): Observable<Measurement> {
+        return this.http.get<any>(`${environment.server}/measurements/lastInsert/${dataID}`)
+            .pipe(catchError(this.errorHandler));
+    }
+
+    getMeasurementsByDataIDAndDate(dataID: string, startDate: string, endDate: string): Observable<Array<Measurement>> {
+        return this.http.get<any>(`${environment.server}/measurements/allByDataIdAndDate`, {
+                    params: {
+                            DataId: dataID,
+                            StartTime: startDate,
+                            EndTime: endDate
+                        }
+                    }).pipe(catchError(this.errorHandler));
+    }
+
     getTimeIntervalByDataIdAndDate(dataID: string, startDate: string, endDate: string): Observable<Array<TimeInterval>> {        
-        return this.http.get<any>(`${environment.server}/timeInterval/allByDataIdAndDate`, {
+        return this.http.get<any>(`${environment.server}/timeIntervals/allByDataIdAndDate`, {
+                    params: {
+                            DataId: dataID,
+                            StartTime: startDate,
+                            EndTime: endDate
+                        }
+                    }).pipe(catchError(this.errorHandler));
+    }
+
+    getLastInsertedTimeInterval(dataID?: string): Observable<TimeInterval> {
+        return this.http.get<any>(`${environment.server}/timeInterval/lastInsert/${dataID}`)
+            .pipe(catchError(this.errorHandler));
+    }
+
+    getTimeIntervalsByDataIDAndDate(dataID: string, startDate: string, endDate: string): Observable<Array<TimeInterval>> {
+        return this.http.get<any>(`${environment.server}/timeIntervals/allByDataIdAndDate`, {
                     params: {
                             DataId: dataID,
                             StartTime: startDate,

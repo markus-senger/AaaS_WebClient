@@ -11,6 +11,8 @@ import { AppComponent } from './app.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 
+import { NgChartsModule } from 'ng2-charts';
+
 import { LogMessageListItemComponent } from './components/lists/logMessage/log-message-list-item/log-message-list-item.component';
 import { LogMessageListComponent } from './components/lists/logMessage/log-message-list/log-message-list.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
@@ -75,7 +77,8 @@ import { MetricFilterComponent } from './components/lists/metric/metric-filter/m
     NoopAnimationsModule,
     AppMaterialModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    NgChartsModule
   ],
   providers: [ ],
   bootstrap: [AppComponent]

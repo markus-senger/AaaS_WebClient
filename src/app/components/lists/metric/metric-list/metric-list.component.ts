@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { finalize } from 'rxjs';
+import { MatSelectionList } from '@angular/material/list';
+import { EMPTY, finalize } from 'rxjs';
 import { mapMetric } from 'src/app/components/utils/Mapper';
 import { AaasService } from 'src/app/shared/aaas.service';
 import { MetricFull } from 'src/app/shared/models/metric-full';
@@ -21,14 +22,19 @@ export class MetricListComponent implements OnInit {
 
     currentPage: any;
 
+    @ViewChild('metric') metric!: MatSelectionList;
+
     constructor(private aaasService: AaasService, public dialog: MatDialog) { }
 
     ngOnInit(): void {
         this.getAllMetrics();
     }
 
-    showDiagramm() {
-        this.dialog.open(MetricDetailComponent);
+    showDiagramm(event: any) {
+        var ref = this.dialog.open(MetricDetailComponent, {
+            data: event.option.value
+        });
+        this.metric.deselectAll();     
     }
 
     pageChanged(event:any): void {
