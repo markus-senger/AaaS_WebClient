@@ -36,7 +36,6 @@ export class MetricDetailComponent implements OnInit {
         scaleShowVerticalLines: false,
         maintainAspectRatio: false,
         responsive: true,
-        //indexAxis: 'y',
         scales: {
             y: {
                 ticks: {
@@ -155,7 +154,6 @@ export class MetricDetailComponent implements OnInit {
         let dataArray: number[] = [];
         let labels: string[] = [];
         if(newInit) this.measurements.reverse();
-        let lastFoundMeasurementSumValue;
         let endDate = new Date(this.curDate);
         endDate.setDate(this.curDate.getDate() + 1);
 
@@ -168,7 +166,6 @@ export class MetricDetailComponent implements OnInit {
             if(foundMeasurement) {
                 dataArray.push(Number(foundMeasurementSumValue));
                 labels.push(this.datepipe.transform(foundMeasurement.timestamp, 'dd-MMM-YYYY') ?? "");
-                lastFoundMeasurementSumValue = foundMeasurementSumValue;
             }
             else {
                 if(endDate < new Date()) {
@@ -183,32 +180,42 @@ export class MetricDetailComponent implements OnInit {
     }
 
     initDiagramForTimeInterval(newInit: boolean = true): void {
-        this.chartType = "bar";
-        let dataArray: number[] = [];
+        let dataArray = [];
         let labels: string[] = [];
         if(newInit) this.timeIntervals.reverse();
-        let lastFoundTimeInterval;
         let endDate = new Date(this.curDate);
+        let startDate = new Date(this.curDate);
+        startDate.setDate(startDate.getDate() - 10);
+
+        let foundTimeIntervals = this.timeIntervals.filter(t => 
+            compareDatesSmaller(new Date(t.start ?? ""), endDate) && compareDatesLarger(new Date(t.end ?? ""), startDate));
+
         endDate.setDate(this.curDate.getDate() + 1);
 
+        let output: number[][] = [];
         for(let i = 0; i <= 10; i++) {
             endDate.setDate(endDate.getDate() - 1);
 
-            let foundTimeInterval = this.timeIntervals.find(t => compareDates(new Date(t.start ?? ""), endDate));
-            if(foundTimeInterval) {
-                dataArray.push(Number(foundTimeInterval.value));
-                labels.push((this.datepipe.transform(foundTimeInterval.start, 'dd-MMM-YYYY')?.concat(" ").concat(this.datepipe.transform(foundTimeInterval.end, 'dd-MMM-YYYY') ?? "") ?? ""));
-                lastFoundTimeInterval = foundTimeInterval;
-            }
-            else {
-                if(endDate < new Date()) {
-                    dataArray.push(0);
+            for(let i = 0; i < 10; i++) {
+                if(foundTimeIntervals[i] && 
+                    compareDatesSmaller(new Date(foundTimeIntervals[i].start ?? ""), endDate) && 
+                    compareDatesLarger(new Date(foundTimeIntervals[i].end ?? ""), endDate)) {
+                    
+                    if(!output[i]) output[i] = [];
+                    output[i].push(Number(foundTimeIntervals[i].value));
                 }
-                labels.push(this.datepipe.transform(endDate, 'dd-MMM-YYYY') ?? "");
-                
+                else {
+                    if(!output[i]) output[i] = [];
+                    output[i].push(0);
+                }
             }
+            labels.push(this.datepipe.transform(endDate, 'dd-MMM-YYYY') ?? "");
         }
-        this.chartData = [{data: dataArray.reverse(), label: 'Zeit-Intervalle'}];
+        for(let i = 9; i >= 0; i--) {
+            dataArray.push({data: output[i].reverse(), label: ''});
+        }
+
+        this.chartData = dataArray;
         this.chartLabels = labels.reverse();
     }
 
@@ -276,4 +283,16 @@ function compareDates(date1: Date, date2: Date): boolean {
     return  date1.getFullYear() == date2.getFullYear() && 
             date1.getMonth() == date2.getMonth() &&
             date1.getDate() == date2.getDate();
+}
+
+function compareDatesLarger(date1: Date, date2: Date): boolean {
+    let d1 = new Date(date1.getFullYear(), date1.getMonth(), date1.getDate());
+    let d2 = new Date(date2.getFullYear(), date2.getMonth(), date2.getDate());
+    return  d1 >= d2;
+}
+
+function compareDatesSmaller(date1: Date, date2: Date): boolean {
+    let d1 = new Date(date1.getFullYear(), date1.getMonth(), date1.getDate());
+    let d2 = new Date(date2.getFullYear(), date2.getMonth(), date2.getDate());
+    return  d1 <= d2;
 }
