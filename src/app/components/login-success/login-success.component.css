@@ -1,0 +1,14 @@
+.container {
+    text-align: center;
+    margin-top: 30vh;
+    color: var(--main-color);
+}
+
+.container i {
+    font-size: 50px;
+}
+
+.container p {
+    margin-top: 20px;
+    font-size: 30px;
+}

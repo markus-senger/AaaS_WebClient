@@ -1,0 +1,36 @@
+.loginDialog {
+    width: 30vw;
+    height: auto;
+    text-align: center;
+}
+
+.loginDialog h1 {
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+
+.loginButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media only screen and (max-height: 550px) {
+    .loginDialog {
+        width: auto;
+        height: auto;
+        text-align: center;
+    }
+}
+
+@media only screen and (max-width: 550px) {
+    .loginDialog {
+        width: auto;
+        height: auto;
+        text-align: center;
+    }
+
+    .loginDialog h1 {
+        display: none;
+    }
+}

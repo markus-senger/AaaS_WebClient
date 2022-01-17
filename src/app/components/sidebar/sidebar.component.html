@@ -1,12 +1,16 @@
 <mat-toolbar *ngIf="isSmall" class="mat-elevation-z8">
     <a (click)="sidenav.toggle()" type="button"><i class="bi bi-list"></i></a>
-    <a (click)="sidenav.close()" routerLink="home" type="button">{{projectTitle}}</a>
+    <p>{{projectTitle}}</p>
+    <div>
+        <a type="button" (click)="logout()"><i class="bi bi-box-arrow-left"></i> LOGOUT</a>
+    </div>
 </mat-toolbar>
 
 <mat-sidenav-container>
     <mat-sidenav #sidenav="matSidenav" mode="side" opened="true" disableClose="true">
         <div *ngIf="!isSmall">
-            <a routerLink="home" type="button">{{projectTitle}}</a>
+            <a type="button" (click)="logout()"><i class="bi bi-box-arrow-left"></i> LOGOUT</a>
+            <p>{{projectTitle}}</p>
         </div>
         
         <p>Client</p>

@@ -1,23 +1,21 @@
 import { ViewChild, Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatSidenav } from '@angular/material/sidenav';
+import { AuthenticationService } from 'src/app/authentication.service';
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css']
 })
-export class SidebarComponent implements OnInit {
+export class SidebarComponent {
   @ViewChild(MatSidenav)
   sidenav!: MatSidenav;
 
   projectTitle: string = "AaaS.Web";
   isSmall: Boolean = false;
 
-  constructor(private observer: BreakpointObserver, private cd: ChangeDetectorRef) { }
-
-  ngOnInit(): void {
-  }
+  constructor(private observer: BreakpointObserver, private cd: ChangeDetectorRef, private auth: AuthenticationService) { }
 
   ngAfterViewInit() {
     this.observer.observe(['(max-width: 900px)', '(max-height: 660px)']).subscribe((res) => {
@@ -34,6 +32,10 @@ export class SidebarComponent implements OnInit {
       }
       this.cd.detectChanges();
     });
+  }
+
+  logout(): void {
+    this.auth.logout();
   }
 
 }

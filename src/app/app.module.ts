@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 
+import { OAuthModule } from 'angular-oauth2-oidc';
+
 import { AppRoutingModule } from './modules/app-routing.module';
 import { AppMaterialModule } from './modules/app-material.module';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -17,7 +19,6 @@ import { LogMessageListItemComponent } from './components/lists/logMessage/log-m
 import { LogMessageListComponent } from './components/lists/logMessage/log-message-list/log-message-list.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { HomeComponent } from './components/home/home.component';
 import { LogMessageListItemDetailComponent } from './components/lists/logMessage/log-message-list-item-detail/log-message-list-item-detail.component';
 import { ConnectingErrorComponent } from './components/utils/connecting-error/connecting-error.component';
 import { LogMessageFilterComponent } from './components/lists/logMessage/log-message-filter/log-message-filter.component';
@@ -38,6 +39,8 @@ import { RemoveDetectorComponent } from './components/remove-detector/remove-det
 import { LoadingDisplayComponent } from './components/loading-display/loading-display.component';
 import { MetricDetailComponent } from './components/lists/metric/metric-detail/metric-detail.component';
 import { MetricFilterComponent } from './components/lists/metric/metric-filter/metric-filter.component';
+import { LoginComponent } from './components/login/login.component';
+import { LoginSuccessComponent } from './components/login-success/login-success.component';
 
 
 @NgModule({
@@ -46,7 +49,6 @@ import { MetricFilterComponent } from './components/lists/metric/metric-filter/m
     LogMessageListComponent,
     LogMessageListItemComponent,
     SidebarComponent,
-    HomeComponent,
     LogMessageListItemDetailComponent,
     ConnectingErrorComponent,
     LogMessageFilterComponent,
@@ -66,7 +68,9 @@ import { MetricFilterComponent } from './components/lists/metric/metric-filter/m
     RemoveDetectorComponent,
     LoadingDisplayComponent,
     MetricDetailComponent,
-    MetricFilterComponent
+    MetricFilterComponent,
+    LoginComponent,
+    LoginSuccessComponent
   ],
   imports: [
     AppRoutingModule,
@@ -78,7 +82,8 @@ import { MetricFilterComponent } from './components/lists/metric/metric-filter/m
     AppMaterialModule,
     ReactiveFormsModule,
     FormsModule,
-    NgChartsModule
+    NgChartsModule,
+    OAuthModule.forRoot()
   ],
   providers: [ ],
   bootstrap: [AppComponent]
