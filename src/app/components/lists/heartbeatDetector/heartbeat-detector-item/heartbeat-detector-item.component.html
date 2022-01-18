@@ -10,8 +10,9 @@
             <mat-card-subtitle *ngIf="!editDetector">{{heartbeatDetector.d_name}}</mat-card-subtitle>
             <div *ngIf="editDetector" class="input-group">
                 <div class="input-group-append">
-                    <input [(ngModel)]="heartbeatDetector.d_name" (change)="detectorUpdate = true" type="text" placeholder="{{heartbeatDetector.d_name}}">
-                    <button class="btn btn-sm btn-outline-primary py-0" type="button" (click)="updateDetector()">Update</button>
+                    <input #uname="ngModel" [(ngModel)]="heartbeatDetector.d_name" (change)="detectorUpdate = true" pattern="[a-zA-Z-:,?!äöü1-9 ]*" type="text" placeholder="{{heartbeatDetector.d_name}}">
+                    <button *ngIf="!uname.errors?.['pattern']" class="btn btn-sm btn-outline-primary py-0" type="button" (click)="updateDetector()">Update</button>
+                    <span *ngIf="uname.errors?.['pattern']" class="text-warning"> Input ungültig</span>
                 </div>
             </div>
         </div>

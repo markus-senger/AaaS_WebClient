@@ -27,9 +27,9 @@ export class WebHookFormForCreatingComponent implements OnInit {
 
     constructor(private aaasService: AaasService, private fb: FormBuilder, public dialog: MatDialog) { 
         this.form = this.fb.group({
-            name: [ "", [Validators.required]],
-            url: [ "", [Validators.required]],
-            tool: [ "", [Validators.required]],
+            name: [ "", [Validators.required, Validators.pattern("[a-zA-Z-:,?!äöü1-9 ]*")]],
+            url: [ "", [Validators.required, Validators.pattern("[a-zA-Z-:,?!äöü1-9 ]*")]],
+            tool: [ "", [Validators.required, Validators.pattern("[a-zA-Z-:,?!äöü1-9 ]*")]],
         });
     }
 

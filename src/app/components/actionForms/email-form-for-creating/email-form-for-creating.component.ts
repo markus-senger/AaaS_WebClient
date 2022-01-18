@@ -28,9 +28,9 @@ export class EMailFormForCreatingComponent implements OnInit {
 
     constructor(private aaasService: AaasService, private fb: FormBuilder, public dialog: MatDialog) {
         this.form = this.fb.group({
-            name: [ "", [Validators.required]],
-            subject: [ "", [Validators.required]],
-            message: [ "", [Validators.required]],
+            name: [ "", [Validators.required, Validators.pattern("[a-zA-Z-:,?!äöü1-9 ]*")]],
+            subject: [ "", [Validators.required, Validators.pattern("[a-zA-Z-:,?!äöü1-9 ]*")]],
+            message: [ "", [Validators.required, Validators.pattern("[a-zA-Z-:,?!äöü1-9 ]*")]],
             sentTo: [ "", [Validators.required, Validators.email]]
         });
     }

@@ -29,6 +29,7 @@ export class HeartbeatDetectorItemComponent {
     detectorUpdate: boolean = false;
     eMailUpdate: boolean = false;
     webHookUpdate: boolean = false;
+    
 
     constructor(private aaasService: AaasService, public dialog: MatDialog) { }
 
