@@ -14,7 +14,7 @@ export class LoginSuccessComponent {
             if(!auth.isLoggedIn()) {
                 router.navigate(['/clientInstance']);
             }
-         }, 500);
+         }, 1000);
     }
 
 }

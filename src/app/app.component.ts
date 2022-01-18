@@ -9,7 +9,6 @@ import { AuthenticationService } from './authentication.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-    //loggedIn: boolean = false;
 
     constructor(private oauthService: OAuthService,
                 private auth: AuthenticationService) {
