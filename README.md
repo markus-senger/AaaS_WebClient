@@ -1,5 +1,5 @@
 # AaaS_WebClient
-for AaaS (exercise for university)
+for Analytics as a Service (AaaS) (exercise for university)
 
 ![image](https://user-images.githubusercontent.com/77236323/176284456-97a1b7df-1638-4f72-8b08-2b031c550e22.png)
 
